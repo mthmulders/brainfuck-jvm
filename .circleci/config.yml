@@ -22,11 +22,12 @@ jobs:
       - run:
           name: Run tests
           command: |
-            mvn clean verify
+            mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
 
       - save_cache:
           paths:
             - ~/.m2
+            - ~/.sonar/cache
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - store_test_results:
