@@ -22,7 +22,11 @@ jobs:
       - run:
           name: Run tests
           command: |
-            mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
+            mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
+              -Dsonar.projectKey=mthmulders_brainfuck-jvm \
+              -Dsonar.organization=mthmulders-github \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_LOGIN
 
       - save_cache:
           paths:
