@@ -21,6 +21,12 @@ From the [website]():
 
 Although a Brainfuck program isn't very likely to modify its Abstract Syntax Tree, it seems that there is currently no other way to make language run inside GraalVM.
 
+## 
+[![CircleCI](https://circleci.com/gh/mthmulders/brainfuck-jvm.svg?style=svg)](https://circleci.com/gh/mthmulders/brainfuck-jvm)
+[![SonarCloud quality gate](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_brainfuck-jvm&metric=alert_status)](https://sonarcloud.io/dashboard?id=mthmulders_brainfuck-jvm)
+[![SonarCloud vulnerability count](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_brainfuck-jvm&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=mthmulders_brainfuck-jvm)
+[![SonarCloud technical debt](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_brainfuck-jvm&metric=sqale_index)](https://sonarcloud.io/dashboard?id=mthmulders_brainfuck-jvm)
+
 ## Getting started
 
 ### Install GraalVM
