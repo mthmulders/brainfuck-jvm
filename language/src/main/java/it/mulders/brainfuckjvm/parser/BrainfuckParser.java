@@ -37,23 +37,20 @@ public class BrainfuckParser {
     private BFCommandNode parse(final BrainfuckToken token, final FrameSlot pointer) {
         final SourceSection sourceSection = token.sourceSection;
 
-        BFCommandNode result;
         switch (token.token) {
-            case DECREMENT_BYTE:         result = new BFDecrementByteNode(sourceSection, pointer);   break;
-            case DECREMENT_DATA_POINTER: result = new BFDecrDataPointerNode(sourceSection, pointer); break;
-            case INCREMENT_BYTE:         result = new BFIncrementByteNode(sourceSection, pointer);   break;
-            case INCREMENT_DATA_POINTER: result = new BFIncrDataPointerNode(sourceSection, pointer); break;
-            case INPUT_BYTE:             result = new BFInputByteNode(sourceSection, pointer);       break;
-            case JUMP_FORWARD:           result = new BFJumpNode(sourceSection, pointer);            break;
-            case OUTPUT_BYTE:            result = new BFOutputByteNode(sourceSection, pointer);      break;
+            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceSection, pointer);
+            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceSection, pointer);
+            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceSection, pointer);
+            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceSection, pointer);
+            case INPUT_BYTE:             return new BFInputByteNode(sourceSection, pointer);
+            case JUMP_FORWARD:           return new BFJumpNode(sourceSection, pointer);
+            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceSection, pointer);
 
             default:
                 log.log(SEVERE, "Unexpected token in source code: %s", token.token);
                 final String message = String.format("Unexpected token \"%s\"in source code", token.token);
                 throw parseError(token.sourceSection, message);
         }
-
-        return result;
     }
 
     public BFRootNode parse(final SourceSection source, final Stream<BrainfuckToken> tokens) {
