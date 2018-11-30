@@ -33,14 +33,14 @@ public class BFVisualizer {
     }
 
     private void dumpTree(final PrintWriter output, final BFParentNode parent) {
-        System.out.printf("Dumping AST for parent node %s (%s)\n", parent.toString(), parent.hashCode());
+        System.out.printf("Dumping AST for parent node %s (%s)%n", parent.toString(), parent.hashCode());
         for (BFCommandNode child : parent.getChildNodes()) {
             if (child == parent) {
                 System.out.println("   Not adding child node since it terminates the JUMP");
                 return;
             }
 
-            System.out.printf("   Adding child node %s (%s)\n", child.toString(), child.hashCode());
+            System.out.printf("   Adding child node %s (%s)%n", child.toString(), child.hashCode());
             output.println(String.format("\t%s [ label = \"%s\" ]", child.hashCode(), child.toString()));
             output.println(String.format("\t%s -> %s", parent.hashCode(), child.hashCode()));
 

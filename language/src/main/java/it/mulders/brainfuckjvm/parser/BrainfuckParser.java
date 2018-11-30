@@ -45,7 +45,7 @@ public class BrainfuckParser {
             case OUTPUT_BYTE:            result = new BFOutputByteNode(sourceSection, pointer);      break;
 
             default:
-                System.err.printf("Unexpected token in source code: %s\n", token.token);
+                System.err.printf("Unexpected token in source code: %s%n", token.token);
                 final String message = String.format("Unexpected token \"%s\"in source code", token.token);
                 throw parseError(token.sourceSection, message);
         }

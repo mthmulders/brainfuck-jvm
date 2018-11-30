@@ -60,7 +60,7 @@ public class BFRootNode extends RootNode implements BFParentNode {
                     frame.setInt(slot, 0);
                     break;
                 default:
-                    System.err.printf("Found unexpected slot %s in frame descriptor. It will remain uninitialized.\n", identifier);
+                    System.err.printf("Found unexpected slot %s in frame descriptor. It will remain uninitialized.%n", identifier);
             }
         }
     }
