@@ -4,13 +4,11 @@ import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.source.SourceSection;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Represents a pair of "Jump Forward & Jump Backward" commands.
  * It contains the commands that are embodied inside them.
  */
-@Slf4j
 public class BFJumpNode extends BFCommandNode implements BFParentNode {
 
     public BFJumpNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {

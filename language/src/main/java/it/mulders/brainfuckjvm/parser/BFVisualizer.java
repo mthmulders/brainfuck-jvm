@@ -3,13 +3,11 @@ package it.mulders.brainfuckjvm.parser;
 import it.mulders.brainfuckjvm.ast.BFCommandNode;
 import it.mulders.brainfuckjvm.ast.BFParentNode;
 import it.mulders.brainfuckjvm.ast.BFRootNode;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
 import static java.lang.String.format;
 
-@Slf4j
 public class BFVisualizer {
     private static final String BG_COLOR = "white";
     private static final String FG_COLOR = "black";
@@ -29,19 +27,20 @@ public class BFVisualizer {
         try (final OutputStream output = new FileOutputStream(new File(outputFileName + ".dot"))) {
             output.write(bytes.toByteArray());
         } catch (IOException ioe) {
-            log.error("Could not dump Brainfuck AST", ioe);
+            System.err.println("Could not dump Brainfuck AST");
+            ioe.printStackTrace(System.err);
         }
     }
 
     private void dumpTree(final PrintWriter output, final BFParentNode parent) {
-        log.trace("Dumping AST for parent node {} ({})", parent.toString(), parent.hashCode());
+        System.out.printf("Dumping AST for parent node %s (%s)\n", parent.toString(), parent.hashCode());
         for (BFCommandNode child : parent.getChildNodes()) {
             if (child == parent) {
-                log.trace("   Not adding child node since it terminates the JUMP");
+                System.out.println("   Not adding child node since it terminates the JUMP");
                 return;
             }
 
-            log.trace("   Adding child node {} ({})", child.toString(), child.hashCode());
+            System.out.printf("   Adding child node %s (%s)\n", child.toString(), child.hashCode());
             output.println(String.format("\t%s [ label = \"%s\" ]", child.hashCode(), child.toString()));
             output.println(String.format("\t%s -> %s", parent.hashCode(), child.hashCode()));
 
