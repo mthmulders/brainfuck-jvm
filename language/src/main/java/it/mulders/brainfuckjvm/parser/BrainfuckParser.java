@@ -12,11 +12,14 @@ import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.ast.*;
 import it.mulders.brainfuckjvm.lexer.BrainfuckToken;
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 
 import static it.mulders.brainfuckjvm.lexer.BrainfuckToken.TokenType.*;
+import static java.util.logging.Level.SEVERE;
 import static java.util.stream.Collectors.toList;
 
 @AllArgsConstructor
+@Log
 public class BrainfuckParser {
     private static final String DATA_POINTER = "__dataPointer";
     private static final int MEMORY_SIZE = 30_000;
@@ -45,7 +48,7 @@ public class BrainfuckParser {
             case OUTPUT_BYTE:            result = new BFOutputByteNode(sourceSection, pointer);      break;
 
             default:
-                System.err.printf("Unexpected token in source code: %s%n", token.token);
+                log.log(SEVERE, "Unexpected token in source code: %s", token.token);
                 final String message = String.format("Unexpected token \"%s\"in source code", token.token);
                 throw parseError(token.sourceSection, message);
         }

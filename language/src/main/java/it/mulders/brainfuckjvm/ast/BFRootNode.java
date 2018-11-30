@@ -9,11 +9,15 @@ import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.runtime.BFNull;
 import lombok.Getter;
+import lombok.extern.java.Log;
+
+import static java.util.logging.Level.WARNING;
 
 @NodeInfo(
         language = BrainfuckLanguage.ID,
         description = "The root of all Brainfuck execution trees"
 )
+@Log
 public class BFRootNode extends RootNode implements BFParentNode {
     @Getter
     private final SourceSection sourceSection;
@@ -60,7 +64,7 @@ public class BFRootNode extends RootNode implements BFParentNode {
                     frame.setInt(slot, 0);
                     break;
                 default:
-                    System.err.printf("Found unexpected slot %s in frame descriptor. It will remain uninitialized.%n", identifier);
+                    log.log(WARNING, "Found unexpected slot {0} in frame descriptor. It will remain uninitialized.", identifier);
             }
         }
     }

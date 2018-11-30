@@ -6,13 +6,17 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckContext;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
+import lombok.extern.java.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import static java.util.logging.Level.SEVERE;
+
 /**
  * Represents the "Input Byte" command.
  */
+@Log
 public class BFInputByteNode extends BFCommandNode {
 
     public BFInputByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
@@ -35,7 +39,7 @@ public class BFInputByteNode extends BFCommandNode {
         try {
             final int bytesRead = in.read(chars, 0, 1);
             if (bytesRead == -1) {
-                System.err.println("Could not read char from standard input: no input left");
+                log.log(SEVERE, "Could not read char from standard input: no input left");
             }
         } catch (IOException ioe) {
             System.err.println("Could not read char from standard input");
