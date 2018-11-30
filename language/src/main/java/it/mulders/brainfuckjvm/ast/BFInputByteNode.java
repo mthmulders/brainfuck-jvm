@@ -34,12 +34,13 @@ public class BFInputByteNode extends BFCommandNode {
     }
 
     @TruffleBoundary
+    @SuppressWarnings("squid:S106")
     private static byte doRead(final BufferedReader in) {
         final char[] chars = new char[1];
         try {
             final int bytesRead = in.read(chars, 0, 1);
             if (bytesRead == -1) {
-                log.log(SEVERE, "Could not read char from standard input: no input left");
+                System.err.println("Could not read char from standard input: no input left");
             }
         } catch (IOException ioe) {
             System.err.println("Could not read char from standard input");
