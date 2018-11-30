@@ -1,6 +1,9 @@
 package it.mulders.brainfuckjvm.parser;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -54,7 +57,7 @@ public class BrainfuckParser {
     }
 
     public BFRootNode parse(final SourceSection source, final Stream<BrainfuckToken> tokens) {
-        final Stack<BFJumpNode> jumps = new Stack<>();
+        final Deque<BFJumpNode> jumps = new ArrayDeque<>();
 
         final FrameDescriptor descriptor = new FrameDescriptor();
 
@@ -76,12 +79,12 @@ public class BrainfuckParser {
 
     private BFCommandNode[] buildNodes(final List<BrainfuckToken> tokens,
                                        final FrameSlot dataPointerSlot,
-                                       final Stack<BFJumpNode> jumps) {
+                                       final Deque<BFJumpNode> jumps) {
         final List<BFCommandNode> nodes = new ArrayList<>(tokens.size());
 
         for (final BrainfuckToken token : tokens) {
             if (token.token == JUMP_BACKWARD) {
-                 if(jumps.empty()) {
+                 if(jumps.isEmpty()) {
                      throw parseError(token.sourceSection, "Found ] without matching [");
                  } else {
                      jumps.pop();
@@ -91,10 +94,10 @@ public class BrainfuckParser {
 
             final BFCommandNode command = parse(token, dataPointerSlot);
 
-            if (jumps.empty()) {
+            if (jumps.isEmpty()) {
                 nodes.add(command);
             }
-            if (!jumps.empty()) {
+            if (!jumps.isEmpty()) {
                 // We're inside a [ jump forward loop. This new command doesn't belong to the root node,
                 // but is a child of the innermost [ jump forward.
                 jumps.peek().addChild(command);
@@ -104,7 +107,7 @@ public class BrainfuckParser {
             }
         }
 
-        if (!jumps.empty()) {
+        if (!jumps.isEmpty()) {
             final BFJumpNode jumpForward = jumps.peek();
             throw parseError(jumpForward.getSourceSection(), "Found [ without matching ]");
         }
