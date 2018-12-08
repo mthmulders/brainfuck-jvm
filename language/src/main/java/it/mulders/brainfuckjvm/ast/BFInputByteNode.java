@@ -6,17 +6,13 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckContext;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
-import lombok.extern.java.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import static java.util.logging.Level.SEVERE;
-
 /**
  * Represents the "Input Byte" command.
  */
-@Log
 public class BFInputByteNode extends BFCommandNode {
 
     public BFInputByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
