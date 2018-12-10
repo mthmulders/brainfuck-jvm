@@ -65,6 +65,7 @@ You can convert that to an PNG-image using Graphviz: `dot -Tpng output.dot -oout
 This project has a few modules:
 * **language** - this module contains the actual language implementation.
 * **launcher** - this module contains a simple command line Brainfuck launcher.
+* **native** - this module builds a native executable for the _launcher_.
 
 ## References
 The following resources have been very useful while developing this project.

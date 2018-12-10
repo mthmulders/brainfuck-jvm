@@ -25,6 +25,7 @@
     <modules>
         <module>language</module>
         <module>launcher</module>
+        <module>native</module>
     </modules>
 
     <dependencyManagement>
