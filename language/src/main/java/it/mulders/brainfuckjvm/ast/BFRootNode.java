@@ -1,5 +1,6 @@
 package it.mulders.brainfuckjvm.ast;
 
+import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
@@ -60,9 +61,14 @@ public class BFRootNode extends RootNode implements BFParentNode {
                     frame.setInt(slot, 0);
                     break;
                 default:
-                    System.err.printf("Found unexpected slot %s in frame descriptor. It will remain uninitialized.%n", identifier);
+                    logUnexpectedSlot(identifier);
             }
         }
+    }
+
+    @TruffleBoundary
+    private void logUnexpectedSlot(final Object identifier) {
+        System.err.printf("Found unexpected slot %s in frame descriptor. It will remain uninitialized.%n", identifier);
     }
 
     @Override
