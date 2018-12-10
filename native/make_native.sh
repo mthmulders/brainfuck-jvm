@@ -3,6 +3,8 @@
 [[ -d target ]] || mkdir target
 
 $JAVA_HOME/bin/native-image \
+    --verbose \
+    --no-server \
     --tool:truffle \
     -H:MaxRuntimeCompileMethods=1200 \
     -H:+ReportUnsupportedElementsAtRuntime \
