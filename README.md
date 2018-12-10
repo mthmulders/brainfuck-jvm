@@ -38,7 +38,7 @@ Note that currently there are only distributions for Linux and MacOS.
 
     # Or wherever GraalVM is installed...
     # this is a typical MacOS installation path.
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-1.0.0-rc9/Contents/Home/jre/"
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-1.0.0-rc9/Contents/Home"
     mvn verify
     
 ## Using Brainfuck-JVM
@@ -60,6 +60,11 @@ It can be hard to verify whether the AST that was generated is correct.
 To visualise the AST, run your program with `-Dbrainfuck.ast.dump=true`.
 It will generate a file called `output.dot`.
 You can convert that to an PNG-image using Graphviz: `dot -Tpng output.dot -ooutput.png`.
+
+## Project structure
+This project has a few modules:
+* **language** - this module contains the actual language implementation.
+* **launcher** - this module contains a simple command line Brainfuck launcher.
 
 ## References
 The following resources have been very useful while developing this project.
