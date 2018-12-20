@@ -1,12 +1,12 @@
-package it.mulders.brainfuck.launcher;
+package it.mulders.brainfuckjvm.launcher;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static it.mulders.brainfuck.launcher.Launcher.isOption;
-import static it.mulders.brainfuck.launcher.Launcher.parseOption;
+import static it.mulders.brainfuckjvm.launcher.Launcher.isOption;
+import static it.mulders.brainfuckjvm.launcher.Launcher.parseOption;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

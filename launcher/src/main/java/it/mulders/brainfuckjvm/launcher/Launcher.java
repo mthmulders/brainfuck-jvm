@@ -1,4 +1,4 @@
-package it.mulders.brainfuck.launcher;
+package it.mulders.brainfuckjvm.launcher;
 
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
