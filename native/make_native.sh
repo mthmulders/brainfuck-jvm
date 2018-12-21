@@ -9,5 +9,5 @@ $JAVA_HOME/bin/native-image \
     -H:MaxRuntimeCompileMethods=1200 \
     -H:+ReportUnsupportedElementsAtRuntime \
     -cp ../language/target/brainfuck-jvm.jar:../launcher/target/launcher.jar \
-    it.mulders.brainfuck.launcher.Launcher \
+    it.mulders.brainfuckjvm.launcher.Launcher \
     target/bfnative
