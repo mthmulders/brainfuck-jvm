@@ -3,10 +3,10 @@ package it.mulders.brainfuckjvm.launcher;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Map;
 
-import static it.mulders.brainfuckjvm.launcher.Launcher.isOption;
-import static it.mulders.brainfuckjvm.launcher.Launcher.parseOption;
+import static it.mulders.brainfuckjvm.launcher.Launcher.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -36,6 +36,16 @@ public class LauncherTest {
         final Map.Entry<String, String> option = options.entrySet().iterator().next();
         assertThat(option.getKey(), is("inspect"));
         assertThat(option.getValue(), is("localhost:2345"));
+    }
+
+    @Test
+    void non_existing_source_exit_code_nonzero() throws IOException {
+        assertThat(run("doesnt-exist.bf"), is(EXIT_NO_SOURCE));
+    }
+
+    @Test
+    void existing_source_exit_code_zero() throws IOException {
+        assertThat(run("../language/src/test/resources/hello.bf"), is(0));
     }
 
     @Test

@@ -15,6 +15,14 @@
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>graal-sdk</artifactId>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${java.home}/lib/boot/graal-sdk.jar</systemPath>-->
+        </dependency>
+
+        <dependency>
+            <groupId>it.mulders.brainfuck-jvm</groupId>
+            <artifactId>brainfuck-jvm</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -62,6 +70,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <configuration>
+                    <argLine>-XX:-UseJVMCIClassLoader</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
