@@ -24,11 +24,8 @@
 
     <modules>
         <module>language</module>
-        <!--
-        Building the launcher fails, see https://github.com/oracle/graal/issues/854
         <module>launcher</module>
         <module>native</module>
-        -->
     </modules>
 
     <dependencyManagement>
