@@ -21,6 +21,7 @@ public class Launcher {
         System.exit(run(args));
     }
 
+    @SuppressWarnings("squid:S106")
     protected static int run(final String... args) throws IOException {
         String file = null;
         final Map<String, String> options = new HashMap<>();
