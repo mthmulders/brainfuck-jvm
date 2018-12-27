@@ -54,6 +54,7 @@ public class Launcher {
         return arg.length() > 2 && arg.startsWith("--");
     }
 
+    @SuppressWarnings("squid:S106")
     protected static boolean verifyFileExists(final File file) {
         if (!file.canRead()) {
             System.err.println("The given source file " + file.getAbsolutePath() + " can't be read");
@@ -62,6 +63,7 @@ public class Launcher {
         return true;
     }
 
+    @SuppressWarnings("squid:S106")
     protected static boolean verifyFileIsReadable(final File file) {
         if (!file.exists()) {
             System.err.println("The given source file " + file.getAbsolutePath() + " can't be found");
@@ -70,6 +72,7 @@ public class Launcher {
         return true;
     }
 
+    @SuppressWarnings("squid:S106")
     private static int executeSourceFile(final File file, final Map<String, String> options) throws IOException {
         final Source source = Source.newBuilder(BRAINFUCK_ID, file).build();
 
