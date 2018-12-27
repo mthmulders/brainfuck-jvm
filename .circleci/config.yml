@@ -35,10 +35,10 @@ jobs:
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - store_test_results:
-          path: "target/surefire-reports/"
+          path: "*/target/surefire-reports/"
 
       - store_test_results:
-          path: "target/failsafe-reports/"
+          path: "*/target/failsafe-reports/"
 
 workflows:
   version: 2
