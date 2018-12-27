@@ -2,14 +2,13 @@ package it.mulders.brainfuckjvm.ast;
 
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.source.SourceSection;
 
 /**
  * Implements the "Increment Byte" command.
  */
 public class BFIncrementByteNode extends BFCommandNode {
-    public BFIncrementByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFIncrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @Override

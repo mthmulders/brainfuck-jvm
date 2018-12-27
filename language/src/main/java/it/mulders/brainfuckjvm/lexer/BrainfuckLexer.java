@@ -6,6 +6,7 @@ import com.oracle.truffle.api.source.SourceSection;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Converts a sequence of characters into a sequence of {@link BrainfuckToken tokens}.
@@ -15,9 +16,9 @@ public class BrainfuckLexer {
         return BrainfuckToken.TokenType.findToken(input);
     }
 
-    private Optional<BrainfuckToken> parseSection(final SourceSection section) {
-        return parseChar(section.getCharacters().charAt(0))
-                .map(type -> new BrainfuckToken(section, type));
+    private Optional<BrainfuckToken> parseSection(final Source source, final CharSequence characters, final int i) {
+        return parseChar(characters.charAt(i))
+                .map(type -> new BrainfuckToken(i, 1, type));
     }
 
     /**
@@ -26,9 +27,9 @@ public class BrainfuckLexer {
      * @return A sequence of tokens recognised in the input program.
      */
     public Stream<BrainfuckToken> parse(final Source source) {
+        final CharSequence characters = source.getCharacters();
         return IntStream.range(0, source.getLength())
-                .mapToObj(i -> source.createSection(i, 1))
-                .map(this::parseSection)
+                .mapToObj(i -> this.parseSection(source, characters, i))
                 .filter(Optional::isPresent)
                 .map(Optional::get);
     }

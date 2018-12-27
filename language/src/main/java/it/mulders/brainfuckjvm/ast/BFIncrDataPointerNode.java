@@ -2,11 +2,10 @@ package it.mulders.brainfuckjvm.ast;
 
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.source.SourceSection;
 
 public class BFIncrDataPointerNode extends BFCommandNode {
-    public BFIncrDataPointerNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFIncrDataPointerNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @Override

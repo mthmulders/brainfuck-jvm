@@ -9,21 +9,19 @@ import lombok.Getter;
 @Getter
 public class BFParseError extends RuntimeException implements TruffleException {
     private final Source source;
-    private final int line;
-    private final int column;
-    private final int length;
+    private final int sourceCharIndex;
+    private final int sourceLength;
 
-    public BFParseError(final Source source, final int line, final int column, final int length, final String message) {
+    public BFParseError(final Source source, final int sourceCharIndex, final int sourceLength, final String message) {
         super(message);
         this.source = source;
-        this.line = line;
-        this.column = column;
-        this.length = length;
+        this.sourceCharIndex = sourceCharIndex;
+        this.sourceLength = sourceLength;
     }
 
     @Override
     public SourceSection getSourceLocation() {
-        return source.createSection(line, column, length);
+        return source.createSection(sourceCharIndex, sourceLength);
     }
 
     @Override

@@ -3,7 +3,6 @@ package it.mulders.brainfuckjvm.ast;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckContext;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 
@@ -14,9 +13,8 @@ import java.io.IOException;
  * Represents the "Input Byte" command.
  */
 public class BFInputByteNode extends BFCommandNode {
-
-    public BFInputByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFInputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @Override

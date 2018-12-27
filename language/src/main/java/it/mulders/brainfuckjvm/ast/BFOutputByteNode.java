@@ -3,7 +3,6 @@ package it.mulders.brainfuckjvm.ast;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckContext;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 
@@ -13,8 +12,8 @@ import java.io.PrintWriter;
  * Represents the "Output Byte" command.
  */
 public class BFOutputByteNode extends BFCommandNode {
-    public BFOutputByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFOutputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @Override

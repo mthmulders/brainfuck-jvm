@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.FrameSlotKind;
+import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.ast.*;
@@ -32,31 +33,33 @@ public class BrainfuckParser {
 
     /**
      * Build an {@link BFCommandNode AST node} from a {@link BrainfuckToken recognized token}.
+     * @param source The source code that contained this token.
      * @param token The recognized token in the original source code.
      * @param pointer The {@link FrameSlot command pointer}
      * @return a node for the Brainfuck AST.
      * @throws BFParseError when the token is not recognized.
      */
-    private BFCommandNode parse(final BrainfuckToken token, final FrameSlot pointer) {
-        final SourceSection sourceSection = token.sourceSection;
+    private BFCommandNode parse(final Source source, final BrainfuckToken token, final FrameSlot pointer) {
+        final int sourceCharIndex = token.sourceCharIndex;
+        final int sourceLength = token.sourceLength;
 
         switch (token.token) {
-            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceSection, pointer);
-            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceSection, pointer);
-            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceSection, pointer);
-            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceSection, pointer);
-            case INPUT_BYTE:             return new BFInputByteNode(sourceSection, pointer);
-            case JUMP_FORWARD:           return new BFJumpNode(sourceSection, pointer);
-            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceSection, pointer);
+            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceCharIndex, sourceLength, pointer);
+            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceCharIndex, sourceLength, pointer);
+            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceCharIndex, sourceLength, pointer);
+            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceCharIndex, sourceLength, pointer);
+            case INPUT_BYTE:             return new BFInputByteNode(sourceCharIndex, sourceLength, pointer);
+            case JUMP_FORWARD:           return new BFJumpNode(sourceCharIndex, sourceLength, pointer);
+            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceCharIndex, sourceLength, pointer);
 
             default:
                 log.log(SEVERE, "Unexpected token in source code: %s", token.token);
                 final String message = String.format("Unexpected token \"%s\"in source code", token.token);
-                throw parseError(token.sourceSection, message);
+                throw parseError(source, token, message);
         }
     }
 
-    public BFRootNode parse(final SourceSection source, final Stream<BrainfuckToken> tokens) {
+    public BFRootNode parse(final Source source, final Stream<BrainfuckToken> tokens) {
         final Deque<BFJumpNode> jumps = new ArrayDeque<>();
 
         final FrameDescriptor descriptor = new FrameDescriptor();
@@ -66,9 +69,9 @@ public class BrainfuckParser {
                 .forEach(i -> descriptor.addFrameSlot(i, FrameSlotKind.Byte));
         final FrameSlot dataPointerSlot = descriptor.findOrAddFrameSlot(DATA_POINTER, FrameSlotKind.Int);
 
-        final BFCommandNode[] commands = buildNodes(tokens.collect(toList()), dataPointerSlot, jumps);
+        final BFCommandNode[] commands = buildNodes(source, tokens.collect(toList()), dataPointerSlot, jumps);
 
-        final BFRootNode root = new BFRootNode(language, descriptor, source, commands);
+        final BFRootNode root = new BFRootNode(language, descriptor, commands);
 
         if ("true".equals(System.getProperty("brainfuck.ast.dump"))) {
             visualizer.dumpTree("source.bf", "output", root);
@@ -77,7 +80,8 @@ public class BrainfuckParser {
         return root;
     }
 
-    private BFCommandNode[] buildNodes(final List<BrainfuckToken> tokens,
+    private BFCommandNode[] buildNodes(final Source source,
+                                       final List<BrainfuckToken> tokens,
                                        final FrameSlot dataPointerSlot,
                                        final Deque<BFJumpNode> jumps) {
         final List<BFCommandNode> nodes = new ArrayList<>(tokens.size());
@@ -85,14 +89,14 @@ public class BrainfuckParser {
         for (final BrainfuckToken token : tokens) {
             if (token.token == JUMP_BACKWARD) {
                  if(jumps.isEmpty()) {
-                     throw parseError(token.sourceSection, "Found ] without matching [");
+                     throw parseError(source, token, "Found ] without matching [");
                  } else {
                      jumps.pop();
                      continue;
                  }
             }
 
-            final BFCommandNode command = parse(token, dataPointerSlot);
+            final BFCommandNode command = parse(source, token, dataPointerSlot);
 
             if (jumps.isEmpty()) {
                 nodes.add(command);
@@ -108,20 +112,24 @@ public class BrainfuckParser {
         }
 
         if (!jumps.isEmpty()) {
-            final BFJumpNode jumpForward = jumps.peek();
-            throw parseError(jumpForward.getSourceSection(), "Found [ without matching ]");
+            final SourceSection section = jumps.peek().getSourceSection();
+            final int sourceCharIndex = section.getStartColumn();
+            final int sourceCharLength = section.getCharLength();
+            throw parseError(source, sourceCharIndex, sourceCharLength, "Found [ without matching ]");
         }
 
         return nodes.toArray(new BFCommandNode[nodes.size()]);
     }
 
-    private BFParseError parseError(final SourceSection section, final String message) {
-        return new BFParseError(
-                section.getSource(),
-                section.getStartLine(),
-                section.getStartColumn(),
-                section.getCharLength(),
-                message
-        );
+    private BFParseError parseError(final Source source,
+                                    final BrainfuckToken token,
+                                    final String message) {
+        return new BFParseError(source, token.sourceCharIndex, token.sourceLength, message);
+    }
+    private BFParseError parseError(final Source source,
+                                    final int sourceCharIndex,
+                                    final int sourceLength,
+                                    final String message) {
+        return new BFParseError(source, sourceCharIndex, sourceLength, message);
     }
 }

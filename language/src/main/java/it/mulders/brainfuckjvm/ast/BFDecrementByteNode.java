@@ -8,8 +8,8 @@ import com.oracle.truffle.api.source.SourceSection;
  * Represents the "Decrement Byte" command.
  */
 public class BFDecrementByteNode extends BFCommandNode {
-    public BFDecrementByteNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFDecrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @Override

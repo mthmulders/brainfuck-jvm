@@ -45,9 +45,7 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
 
         final Stream<BrainfuckToken> tokens = lexer.parse(source);
 
-        final SourceSection completeSource = source.createSection(0, source.getLength());
-
-        final BFRootNode rootNode = parser.parse(completeSource, tokens);
+        final BFRootNode rootNode = parser.parse(source, tokens);
 
         final TruffleRuntime runtime = Truffle.getRuntime();
 

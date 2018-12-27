@@ -3,7 +3,6 @@ package it.mulders.brainfuckjvm.ast;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.source.SourceSection;
 
 /**
  * Represents a pair of "Jump Forward & Jump Backward" commands.
@@ -11,8 +10,8 @@ import com.oracle.truffle.api.source.SourceSection;
  */
 public class BFJumpNode extends BFCommandNode implements BFParentNode {
 
-    public BFJumpNode(final SourceSection sourceSection, final FrameSlot dataPointerSlot) {
-        super(sourceSection, dataPointerSlot);
+    public BFJumpNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot);
     }
 
     @CompilationFinal(dimensions = 1)

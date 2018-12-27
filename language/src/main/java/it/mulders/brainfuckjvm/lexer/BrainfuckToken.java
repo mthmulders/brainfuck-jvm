@@ -1,10 +1,11 @@
 package it.mulders.brainfuckjvm.lexer;
 
-import com.oracle.truffle.api.source.SourceSection;
+import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class BrainfuckToken {
     /**
      * All tokens known in the Brainfuck language.
@@ -32,16 +33,12 @@ public class BrainfuckToken {
         }
     }
 
-    public final SourceSection sourceSection;
+    public final int sourceCharIndex;
+    public final int sourceLength;
     public final TokenType token;
-
-    public BrainfuckToken(final SourceSection sourceSection, final TokenType token) {
-        this.sourceSection = sourceSection;
-        this.token = token;
-    }
 
     @Override
     public String toString() {
-        return String.format("%s [%d:%d]", this.token.name(), this.sourceSection.getStartLine(), this.sourceSection.getStartColumn());
+        return String.format("%s [%d-%d]", this.token.name(), this.sourceCharIndex, this.sourceLength);
     }
 }
