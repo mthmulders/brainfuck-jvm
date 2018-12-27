@@ -71,20 +71,20 @@ public abstract class BFCommandNode extends Node {
 
     public abstract void execute(final VirtualFrame frame);
 
-    protected final void setDataPointer(final VirtualFrame frame, final int newDataPointer) {
+    final void setDataPointer(final VirtualFrame frame, final int newDataPointer) {
         frame.setInt(dataPointerSlot, newDataPointer);
     }
 
-    protected final int getDataPointer(final VirtualFrame frame) {
+    final int getDataPointer(final VirtualFrame frame) {
         return FrameUtil.getIntSafe(frame, dataPointerSlot);
     }
 
-    protected final FrameSlot getSlot(final VirtualFrame frame) {
+    final FrameSlot getSlot(final VirtualFrame frame) {
         final int dataPointer = getDataPointer(frame);
         return frame.getFrameDescriptor().findFrameSlot(dataPointer);
     }
 
-    protected final byte getCurrentByte(final VirtualFrame frame) {
+    final byte getCurrentByte(final VirtualFrame frame) {
         final FrameSlot currentByteSlot = getSlot(frame);
         return FrameUtil.getByteSafe(frame, currentByteSlot);
     }
