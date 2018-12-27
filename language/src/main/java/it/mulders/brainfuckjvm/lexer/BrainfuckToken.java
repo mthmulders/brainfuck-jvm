@@ -34,7 +34,7 @@ public class BrainfuckToken {
     }
 
     public final int sourceCharIndex;
-    public final int sourceLength;
+    public final int sourceLength = 1;
     public final TokenType token;
 
     @Override

@@ -1,26 +1,16 @@
 package it.mulders.brainfuckjvm.lexer;
 
 import com.oracle.truffle.api.source.Source;
-import com.oracle.truffle.api.source.SourceSection;
+import it.mulders.brainfuckjvm.lexer.BrainfuckToken.TokenType;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Converts a sequence of characters into a sequence of {@link BrainfuckToken tokens}.
  */
 public class BrainfuckLexer {
-    private Optional<BrainfuckToken.TokenType> parseChar(final char input) {
-        return BrainfuckToken.TokenType.findToken(input);
-    }
-
-    private Optional<BrainfuckToken> parseSection(final Source source, final CharSequence characters, final int i) {
-        return parseChar(characters.charAt(i))
-                .map(type -> new BrainfuckToken(i, 1, type));
-    }
-
     /**
      * Parses the source code a sequence of statements.
      * @param source The input program
@@ -28,8 +18,9 @@ public class BrainfuckLexer {
      */
     public Stream<BrainfuckToken> parse(final Source source) {
         final CharSequence characters = source.getCharacters();
-        return IntStream.range(0, source.getLength())
-                .mapToObj(i -> this.parseSection(source, characters, i))
+        return IntStream
+                .range(0, source.getLength())
+                .mapToObj(i -> TokenType.findToken(characters.charAt(i)).map(type -> new BrainfuckToken(i, type)))
                 .filter(Optional::isPresent)
                 .map(Optional::get);
     }
