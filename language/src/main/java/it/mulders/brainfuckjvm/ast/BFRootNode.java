@@ -6,15 +6,21 @@ import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RootNode;
+import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.runtime.BFNull;
+import lombok.Getter;
 
 @NodeInfo(
         language = BrainfuckLanguage.ID,
         description = "The root of all Brainfuck execution trees"
 )
 public class BFRootNode extends RootNode implements BFParentNode {
-    /** The function body that is executed. */
+    /** The source section that all AST nodes will derive their source section from. */
+    @Getter
+    private final SourceSection sourceSection;
+
+    /** The statements that are executed. */
     @Children
     private final BFCommandNode[] children;
 
@@ -25,9 +31,13 @@ public class BFRootNode extends RootNode implements BFParentNode {
         return result;
     }
 
-    public BFRootNode(final BrainfuckLanguage language, final FrameDescriptor frameDescriptor, final BFCommandNode[] children) {
-        super(language, frameDescriptor);
+    public BFRootNode(final BrainfuckLanguage language,
+                      final FrameDescriptor descriptor,
+                      final BFCommandNode[] children,
+                      final SourceSection sourceSection) {
+        super(language, descriptor);
         this.children = children;
+        this.sourceSection = sourceSection;
     }
 
     @Override

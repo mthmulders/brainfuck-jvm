@@ -20,12 +20,12 @@ public abstract class BFCommandNode extends Node {
     private static final int NO_SOURCE = -1;
     private static final int UNAVAILABLE_SOURCE = -2;
 
-    private final int sourceCharIndex;
-    private final int sourceLength;
+    protected final int sourceCharIndex;
+    protected final int sourceLength;
 
     /** The slot that holds the data pointer. */
     @Getter
-    private final FrameSlot dataPointerSlot;
+    protected final FrameSlot dataPointerSlot;
 
     /**
      * Overloaded constructor for nodes that do not have a source section.
@@ -52,16 +52,16 @@ public abstract class BFCommandNode extends Node {
             // AST node without source
             return null;
         }
-        RootNode rootNode = getRootNode();
+        final RootNode rootNode = getRootNode();
         if (rootNode == null) {
             // not yet adopted yet
             return null;
         }
-        SourceSection rootSourceSection = rootNode.getSourceSection();
+        final SourceSection rootSourceSection = rootNode.getSourceSection();
         if (rootSourceSection == null) {
             return null;
         }
-        Source source = rootSourceSection.getSource();
+        final Source source = rootSourceSection.getSource();
         if (sourceCharIndex == UNAVAILABLE_SOURCE) {
             return source.createUnavailableSection();
         } else {
