@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
 public class BrainfuckParser {
     private static final String DATA_POINTER = "__dataPointer";
     private static final int MEMORY_SIZE = 30_000;
-    public static final int SOURCE_START_INDEX = 0;
+    private static final int SOURCE_START_INDEX = 0;
 
     private final BrainfuckLanguage language;
     private final BFVisualizer visualizer = new BFVisualizer();
@@ -74,6 +74,7 @@ public class BrainfuckParser {
 
         final SourceSection section = source.createSection(SOURCE_START_INDEX, source.getLength());
         final BFRootNode root = new BFRootNode(language, descriptor, commands, section);
+        root.getChildNodes()[0].markAsRoot();
 
         if ("true".equals(System.getProperty("brainfuck.ast.dump"))) {
             visualizer.dumpTree("source.bf", "output", root);

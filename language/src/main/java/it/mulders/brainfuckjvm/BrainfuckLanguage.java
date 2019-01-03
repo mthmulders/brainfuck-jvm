@@ -3,7 +3,8 @@ package it.mulders.brainfuckjvm;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.TruffleLanguage;
-import com.oracle.truffle.api.TruffleRuntime;
+import com.oracle.truffle.api.instrumentation.ProvidedTags;
+import com.oracle.truffle.api.instrumentation.StandardTags;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.source.Source;
 import it.mulders.brainfuckjvm.ast.BFRootNode;
@@ -13,6 +14,10 @@ import it.mulders.brainfuckjvm.parser.BrainfuckParser;
 
 import java.util.stream.Stream;
 
+@ProvidedTags({
+        StandardTags.ExpressionTag.class,
+        StandardTags.StatementTag.class
+})
 @TruffleLanguage.Registration(
         id = BrainfuckLanguage.ID,
         name = "SL",
@@ -39,15 +44,13 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
     }
 
     @Override
-    protected CallTarget parse(final ParsingRequest request) throws Exception {
+    protected CallTarget parse(final ParsingRequest request) {
         final Source source = request.getSource();
 
         final Stream<BrainfuckToken> tokens = lexer.parse(source);
 
         final BFRootNode rootNode = parser.parse(source, tokens);
 
-        final TruffleRuntime runtime = Truffle.getRuntime();
-
-        return runtime.createCallTarget(rootNode);
+        return Truffle.getRuntime().createCallTarget(rootNode);
     }
 }
