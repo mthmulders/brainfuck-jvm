@@ -28,7 +28,7 @@ public class BrainfuckParser {
     private static final String BF_MEM_SIZE = "bf.mem.size";
 
     private static final String DATA_POINTER = "__dataPointer";
-    private static final int MEMORY_SIZE = Integer.valueOf(System.getProperty(BF_MEM_SIZE, "30000"));
+    private static final int MEMORY_SIZE = Integer.parseInt(System.getProperty(BF_MEM_SIZE, "30000"));
     private static final int SOURCE_START_INDEX = 0;
 
     private final BrainfuckLanguage language;
