@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static it.mulders.brainfuckjvm.Constants.TOKEN_LENGTH;
+
 @AllArgsConstructor
 public class BrainfuckToken {
     /**
@@ -34,11 +36,10 @@ public class BrainfuckToken {
     }
 
     public final int sourceCharIndex;
-    public final int sourceLength = 1;
     public final TokenType token;
 
     @Override
     public String toString() {
-        return String.format("%s [%d-%d]", this.token.name(), this.sourceCharIndex, this.sourceLength);
+        return String.format("%s [%d-%d]", this.token.name(), this.sourceCharIndex, TOKEN_LENGTH);
     }
 }

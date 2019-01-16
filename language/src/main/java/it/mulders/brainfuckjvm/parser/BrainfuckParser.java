@@ -18,6 +18,8 @@ import it.mulders.brainfuckjvm.lexer.BrainfuckToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 
+import static it.mulders.brainfuckjvm.Constants.BF_MEM_SIZE;
+import static it.mulders.brainfuckjvm.Constants.TOKEN_LENGTH;
 import static it.mulders.brainfuckjvm.lexer.BrainfuckToken.TokenType.*;
 import static java.util.logging.Level.SEVERE;
 import static java.util.stream.Collectors.toList;
@@ -25,8 +27,6 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 @Log
 public class BrainfuckParser {
-    private static final String BF_MEM_SIZE = "bf.mem.size";
-
     private static final String DATA_POINTER = "__dataPointer";
     private static final int MEMORY_SIZE = Integer.parseInt(System.getProperty(BF_MEM_SIZE, "30000"));
     private static final int SOURCE_START_INDEX = 0;
@@ -44,16 +44,15 @@ public class BrainfuckParser {
      */
     private BFCommandNode parse(final Source source, final BrainfuckToken token, final FrameSlot pointer) {
         final int sourceCharIndex = token.sourceCharIndex;
-        final int sourceLength = token.sourceLength;
 
         switch (token.token) {
-            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceCharIndex, sourceLength, pointer);
-            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceCharIndex, sourceLength, pointer);
-            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceCharIndex, sourceLength, pointer);
-            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceCharIndex, sourceLength, pointer);
-            case INPUT_BYTE:             return new BFInputByteNode(sourceCharIndex, sourceLength, pointer);
-            case JUMP_FORWARD:           return new BFJumpNode(sourceCharIndex, sourceLength, pointer);
-            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceCharIndex, sourceLength, pointer);
+            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case INPUT_BYTE:             return new BFInputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case JUMP_FORWARD:           return new BFJumpNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
 
             default:
                 log.log(SEVERE, "Unexpected token in source code: %s", token.token);
@@ -129,7 +128,7 @@ public class BrainfuckParser {
     private BFParseError parseError(final Source source,
                                     final BrainfuckToken token,
                                     final String message) {
-        return new BFParseError(source, token.sourceCharIndex, token.sourceLength, message);
+        return new BFParseError(source, token.sourceCharIndex, TOKEN_LENGTH, message);
     }
     private BFParseError parseError(final Source source,
                                     final int sourceCharIndex,
