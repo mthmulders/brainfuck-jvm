@@ -12,6 +12,7 @@ public class BrainfuckToken {
     /**
      * All tokens known in the Brainfuck language.
      */
+    @AllArgsConstructor
     public enum TokenType {
         DECREMENT_BYTE('-'),
         DECREMENT_DATA_POINTER('<'),
@@ -24,11 +25,7 @@ public class BrainfuckToken {
 
         private char command;
 
-        TokenType(final char command) {
-            this.command = command;
-        }
-
-        public static Optional<TokenType> findToken(final char command) {
+        public static Optional<TokenType> findType(final char command) {
             return Arrays.stream(TokenType.values())
                     .filter(token -> token.command == command)
                     .findAny();
