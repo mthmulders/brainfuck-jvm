@@ -92,7 +92,7 @@ public class BrainfuckParser {
 
         for (final BrainfuckToken token : tokens) {
             if (token.token == JUMP_BACKWARD) {
-                 if(jumps.isEmpty()) {
+                 if (jumps.isEmpty()) {
                      throw parseError(source, token, "Found ] without matching [");
                  } else {
                      jumps.pop();
