@@ -11,6 +11,19 @@ import java.util.stream.Stream;
  * Converts a sequence of characters into a sequence of {@link BrainfuckToken tokens}.
  */
 public class BrainfuckLexer {
+
+    private Optional<BrainfuckToken> parseCharacter(final CharSequence characters, final int index) {
+        return TokenType.findType(characters.charAt(index))
+                .map(type -> new BrainfuckToken(index, type));
+    }
+
+    private Stream<BrainfuckToken> parse(final Source source, final CharSequence characters) {
+        return IntStream.range(0, source.getLength())
+                .mapToObj(index -> parseCharacter(characters, index))
+                .filter(Optional::isPresent)
+                .map(Optional::get);
+    }
+
     /**
      * Parses the source code a sequence of statements.
      * @param source The input program
@@ -18,11 +31,6 @@ public class BrainfuckLexer {
      */
     public Stream<BrainfuckToken> parse(final Source source) {
         final CharSequence characters = source.getCharacters();
-        return IntStream
-                .range(0, source.getLength())
-                .mapToObj(i -> TokenType.findToken(characters.charAt(i)).map(type -> new BrainfuckToken(i, type)))
-                .filter(Optional::isPresent)
-                .map(Optional::get);
+        return parse(source, characters);
     }
-
 }
