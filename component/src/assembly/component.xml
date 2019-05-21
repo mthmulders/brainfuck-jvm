@@ -11,13 +11,13 @@
             <includes>
                 <include>it.mulders.brainfuck-jvm:brainfuck-jvm:jar:*</include>
             </includes>
-            <outputDirectory>jre/languages/bf</outputDirectory>
+            <outputFileNameMapping>jre/languages/bf/brainfuck.jar</outputFileNameMapping>
         </dependencySet>
         <dependencySet>
             <includes>
                 <include>it.mulders.brainfuck-jvm:brainfuck-launcher:jar:*</include>
             </includes>
-            <outputDirectory>jre/languages/bf/launcher</outputDirectory>
+            <outputFileNameMapping>jre/languages/bf/launcher/bf-launcher.jar</outputFileNameMapping>
         </dependencySet>
     </dependencySets>
     <fileSets>

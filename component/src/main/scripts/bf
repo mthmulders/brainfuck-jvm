@@ -20,7 +20,7 @@ if [[ "$GRAALVM_VERSION" != "" ]]; then
         exit 1
     fi
 else
-    LANGUAGE_PATH="$SCRIPT_HOME/language/target/brainfuck-jvm.jar"
+    LANGUAGE_PATH="$SCRIPT_HOME/language/target/brainfuck.jar"
     LAUNCHER_PATH="$SCRIPT_HOME/launcher/target/launcher-$VERSION-SNAPSHOT.jar"
     # Check the GraalVM version in JAVA_HOME
     if [[ "$JAVA_HOME" != "" ]]; then

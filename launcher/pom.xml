@@ -44,7 +44,6 @@
     </dependencies>
 
     <build>
-        <finalName>bf-launcher</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -57,7 +56,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>launcher</finalName>
+                            <finalName>bf-launcher</finalName>
                             <artifactSet>
                                 <excludes>
                                     <exclude>junit:junit</exclude>
