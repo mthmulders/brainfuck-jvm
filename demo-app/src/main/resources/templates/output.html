@@ -24,10 +24,12 @@
 
     <div th:if="${not #strings.isEmpty(result.output)}">
         <samp th:text="${result.output}"></samp>
-        <p th:text="'Total execution time: ' + ${result.executionTime} +'ms'"></p>
-    </div>
 
-    <hr />
+        <hr />
+
+        <div class="alert alert-info" role="alert" th:text="'Total execution time: ' + ${result.executionTime} +'ms'">
+        </div>
+    </div>
 
     <a th:href="@{/}">&larr; Back</a>
 </div>
