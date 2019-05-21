@@ -10,6 +10,7 @@ import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.runtime.BFNull;
 import lombok.Getter;
+import lombok.Setter;
 
 @NodeInfo(
         language = BrainfuckLanguage.ID,
@@ -22,7 +23,8 @@ public class BFRootNode extends RootNode implements BFParentNode {
 
     /** The statements that are executed. */
     @Children
-    private final BFCommandNode[] children;
+    @Setter
+    private BFCommandNode[] children;
 
     @Override
     public BFCommandNode[] getChildNodes() {
@@ -33,10 +35,8 @@ public class BFRootNode extends RootNode implements BFParentNode {
 
     public BFRootNode(final BrainfuckLanguage language,
                       final FrameDescriptor descriptor,
-                      final BFCommandNode[] children,
                       final SourceSection sourceSection) {
         super(language, descriptor);
-        this.children = children;
         this.sourceSection = sourceSection;
     }
 

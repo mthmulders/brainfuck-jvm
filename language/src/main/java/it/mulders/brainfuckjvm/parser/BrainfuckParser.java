@@ -71,11 +71,8 @@ public class BrainfuckParser {
                 .forEach(i -> descriptor.addFrameSlot(i, FrameSlotKind.Byte));
         final FrameSlot dataPointerSlot = descriptor.findOrAddFrameSlot(DATA_POINTER, FrameSlotKind.Int);
 
-        final BFCommandNode[] commands = buildNodes(source, tokens.collect(toList()), dataPointerSlot, jumps);
-
         final SourceSection section = source.createSection(SOURCE_START_INDEX, source.getLength());
-        final BFRootNode root = new BFRootNode(language, descriptor, commands, section);
-        root.getChildNodes()[0].markAsRoot();
+        final BFRootNode root = buildNodes(source,tokens.collect(toList()), dataPointerSlot, jumps, new BFRootNode(language, descriptor, section));
 
         if ("true".equals(System.getProperty("brainfuck.ast.dump"))) {
             visualizer.dumpTree("source.bf", "output", root);
@@ -84,10 +81,11 @@ public class BrainfuckParser {
         return root;
     }
 
-    private BFCommandNode[] buildNodes(final Source source,
-                                       final List<BrainfuckToken> tokens,
-                                       final FrameSlot dataPointerSlot,
-                                       final Deque<BFJumpNode> jumps) {
+    private BFRootNode buildNodes(final Source source,
+                                  final List<BrainfuckToken> tokens,
+                                  final FrameSlot dataPointerSlot,
+                                  final Deque<BFJumpNode> jumps,
+                                  final BFRootNode root) {
         final List<BFCommandNode> nodes = new ArrayList<>(tokens.size());
 
         for (final BrainfuckToken token : tokens) {
@@ -109,11 +107,16 @@ public class BrainfuckParser {
                 // We're inside a [ jump forward loop. This new command doesn't belong to the root node,
                 // but is a child of the innermost [ jump forward.
                 jumps.peek().addChild(command);
+                jumps.peek().adoptChildren();
             }
             if (command instanceof BFJumpNode) {
                 jumps.push((BFJumpNode) command);
             }
         }
+
+        final BFCommandNode[] commands = nodes.toArray(new BFCommandNode[nodes.size()]);
+        root.setChildren(commands);
+        root.adoptChildren();
 
         if (!jumps.isEmpty()) {
             final SourceSection section = jumps.peek().getSourceSection();
@@ -122,7 +125,7 @@ public class BrainfuckParser {
             throw parseError(source, sourceCharIndex, sourceCharLength, "Found [ without matching ]");
         }
 
-        return nodes.toArray(new BFCommandNode[nodes.size()]);
+        return root;
     }
 
     private BFParseError parseError(final Source source,
