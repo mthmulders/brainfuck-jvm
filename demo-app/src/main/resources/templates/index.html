@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Brainfuck Web Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Brainfuck Runner</h1>
+        <p class="lead">Use this web app to run your Brainfuck code online!</p>
+    </div>
+
+    <hr />
+
+    <form action="#" th:action="@{/run}" method="post" th:object="${input}">
+        <div class="form-group">
+            <label for="source">Enter source code</label>
+
+            <textarea class="form-control" th:field="*{source}" id="source" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Run!</button>
+    </form>
+</div>
+
+<script type="text/javascript" th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
