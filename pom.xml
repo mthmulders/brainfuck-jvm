@@ -23,6 +23,7 @@
     </scm>
 
     <modules>
+        <module>component</module>
         <module>language</module>
         <module>launcher</module>
     </modules>
