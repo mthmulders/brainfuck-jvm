@@ -7,10 +7,7 @@ import com.oracle.truffle.api.instrumentation.StandardTags;
 import com.oracle.truffle.api.interop.TruffleObject;
 import it.mulders.brainfuckjvm.simpleparser.SimpleParser;
 
-@ProvidedTags({
-        StandardTags.ExpressionTag.class,
-        StandardTags.StatementTag.class
-})
+@ProvidedTags({ StandardTags.StatementTag.class })
 @TruffleLanguage.Registration(
         id = BrainfuckLanguage.ID,
         name = "SL",
