@@ -1,4 +1,4 @@
-package it.mulders.brainfuckjvm.parser;
+package it.mulders.brainfuckjvm.simpleparser.parser;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -14,13 +14,13 @@ import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import it.mulders.brainfuckjvm.BrainfuckLanguage;
 import it.mulders.brainfuckjvm.ast.*;
-import it.mulders.brainfuckjvm.lexer.BrainfuckToken;
+import it.mulders.brainfuckjvm.simpleparser.lexer.BrainfuckToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 
 import static it.mulders.brainfuckjvm.Constants.BF_MEM_SIZE;
 import static it.mulders.brainfuckjvm.Constants.TOKEN_LENGTH;
-import static it.mulders.brainfuckjvm.lexer.BrainfuckToken.TokenType.*;
+import static it.mulders.brainfuckjvm.simpleparser.lexer.BrainfuckToken.TokenType.*;
 import static java.util.logging.Level.SEVERE;
 import static java.util.stream.Collectors.toList;
 

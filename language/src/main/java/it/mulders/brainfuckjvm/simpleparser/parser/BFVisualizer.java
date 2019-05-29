@@ -1,4 +1,4 @@
-package it.mulders.brainfuckjvm.parser;
+package it.mulders.brainfuckjvm.simpleparser.parser;
 
 import it.mulders.brainfuckjvm.ast.BFCommandNode;
 import it.mulders.brainfuckjvm.ast.BFParentNode;

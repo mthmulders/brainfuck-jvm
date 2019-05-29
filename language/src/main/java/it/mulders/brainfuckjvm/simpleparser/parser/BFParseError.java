@@ -1,4 +1,4 @@
-package it.mulders.brainfuckjvm.parser;
+package it.mulders.brainfuckjvm.simpleparser.parser;
 
 import com.oracle.truffle.api.TruffleException;
 import com.oracle.truffle.api.nodes.Node;

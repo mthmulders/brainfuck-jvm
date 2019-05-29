@@ -1,11 +1,11 @@
-package it.mulders.brainfuckjvm.lexer;
-
-import com.oracle.truffle.api.source.Source;
-import it.mulders.brainfuckjvm.lexer.BrainfuckToken.TokenType;
+package it.mulders.brainfuckjvm.simpleparser.lexer;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import com.oracle.truffle.api.source.Source;
+import it.mulders.brainfuckjvm.simpleparser.lexer.BrainfuckToken.TokenType;
 
 /**
  * Converts a sequence of characters into a sequence of {@link BrainfuckToken tokens}.

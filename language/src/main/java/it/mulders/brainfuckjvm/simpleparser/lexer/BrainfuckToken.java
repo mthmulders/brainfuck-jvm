@@ -1,4 +1,4 @@
-package it.mulders.brainfuckjvm.lexer;
+package it.mulders.brainfuckjvm.simpleparser.lexer;
 
 import lombok.AllArgsConstructor;
 

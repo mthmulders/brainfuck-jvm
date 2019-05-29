@@ -1,18 +1,11 @@
 package it.mulders.brainfuckjvm;
 
 import com.oracle.truffle.api.CallTarget;
-import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.instrumentation.ProvidedTags;
 import com.oracle.truffle.api.instrumentation.StandardTags;
 import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.source.Source;
-import it.mulders.brainfuckjvm.ast.BFRootNode;
-import it.mulders.brainfuckjvm.lexer.BrainfuckLexer;
-import it.mulders.brainfuckjvm.lexer.BrainfuckToken;
-import it.mulders.brainfuckjvm.parser.BrainfuckParser;
-
-import java.util.stream.Stream;
+import it.mulders.brainfuckjvm.simpleparser.SimpleParser;
 
 @ProvidedTags({
         StandardTags.ExpressionTag.class,
@@ -29,8 +22,7 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
     public static final String ID = "bf";
     public static final String MIME_TYPE = "application/x-bf";
 
-    private BrainfuckLexer lexer = new BrainfuckLexer();
-    private BrainfuckParser parser = new BrainfuckParser(this);
+    private final SimpleParser naiveParser = new SimpleParser(this);
 
     @Override
     protected BrainfuckContext createContext(final Env env) {
@@ -45,12 +37,6 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
 
     @Override
     protected CallTarget parse(final ParsingRequest request) {
-        final Source source = request.getSource();
-
-        final Stream<BrainfuckToken> tokens = lexer.parse(source);
-
-        final BFRootNode rootNode = parser.parse(source, tokens);
-
-        return Truffle.getRuntime().createCallTarget(rootNode);
+        return naiveParser.parseSource(request.getSource());
     }
 }
