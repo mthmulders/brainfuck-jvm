@@ -19,7 +19,7 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
     public static final String ID = "bf";
     public static final String MIME_TYPE = "application/x-bf";
 
-    private final SimpleParser naiveParser = new SimpleParser(this);
+    private final SimpleParser simpleParser = new SimpleParser(this);
 
     @Override
     protected BrainfuckContext createContext(final Env env) {
@@ -34,6 +34,6 @@ public final class BrainfuckLanguage extends TruffleLanguage<BrainfuckContext> {
 
     @Override
     protected CallTarget parse(final ParsingRequest request) {
-        return naiveParser.parseSource(request.getSource());
+        return simpleParser.parseSource(request.getSource());
     }
 }
