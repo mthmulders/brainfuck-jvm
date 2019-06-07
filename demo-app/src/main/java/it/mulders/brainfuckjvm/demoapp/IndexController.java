@@ -13,7 +13,10 @@ import java.util.Map;
 public class IndexController {
     @GetMapping("/")
     public ModelAndView index() {
-        final Map<String, Object> model = Collections.singletonMap("input", new ExecutionInput());
+        final ExecutionInput input = new ExecutionInput();
+        input.setSource("+ + > + + + + + [ < + > - ] + + + + + + + + [ < + + + + + + > - ] < .");
+
+        final Map<String, Object> model = Collections.singletonMap("input", input);
         return new ModelAndView("index", model);
     }
 }
