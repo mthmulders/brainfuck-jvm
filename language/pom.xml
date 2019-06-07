@@ -14,6 +14,12 @@
 
     <description>Language implementation of Brainfuck</description>
 
+    <properties>
+        <antlr4.version>4.7.2</antlr4.version>
+        <antlr4.visitor>true</antlr4.visitor>
+        <antlr4.listener>true</antlr4.listener>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
@@ -41,6 +47,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr4.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
@@ -61,6 +73,24 @@
     <build>
         <finalName>brainfuck-jvm</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr4.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <arguments>
+                        <argument>-package</argument>
+                        <argument>it.mulders.brainfuckjvm.antlr4parser</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
