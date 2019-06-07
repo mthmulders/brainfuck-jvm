@@ -11,12 +11,7 @@
 <body>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Brainfuck Runner</h1>
-        <p class="lead">Use this web app to run your Brainfuck code online!</p>
-    </div>
-
-    <hr />
+    <span th:insert="header" />
 
     <div class="alert alert-danger" role="alert"
          th:if="${not #strings.isEmpty(result.errorMessage)}" th:text="${result.errorMessage}">
@@ -33,6 +28,8 @@
 
     <a th:href="@{/}">&larr; Back</a>
 </div>
+
+<footer class="footer" th:insert="footer" />
 
 <script type="text/javascript" th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 

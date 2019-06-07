@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+    <div class="container" th:fragment="footer">
+        <span class="text-muted">
+            Powered by
+            <span th:text="${@environment.getProperty('java.vm.name')}" />,
+            based on Java
+            <span th:text="${@environment.getProperty('java.version')}" />.
+        </span>
+    </div>
+
+</body>
+</html>
+

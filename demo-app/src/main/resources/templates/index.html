@@ -11,12 +11,7 @@
 <body>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Brainfuck Runner</h1>
-        <p class="lead">Use this web app to run your Brainfuck code online!</p>
-    </div>
-
-    <hr />
+    <span th:insert="header" />
 
     <form action="#" th:action="@{/run}" method="post" th:object="${input}">
         <div class="form-group">
@@ -28,6 +23,8 @@
         <button type="submit" class="btn btn-primary">Run!</button>
     </form>
 </div>
+
+<footer class="footer" th:insert="footer" />
 
 <script type="text/javascript" th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 
