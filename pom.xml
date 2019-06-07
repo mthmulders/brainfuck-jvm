@@ -27,6 +27,7 @@
         <module>language</module>
         <module>launcher</module>
         <module>demo-app</module>
+        <module>benchmark</module>
     </modules>
 
     <dependencyManagement>
