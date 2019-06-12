@@ -14,7 +14,8 @@ public class IndexController {
     @GetMapping("/")
     public ModelAndView index() {
         final ExecutionInput input = new ExecutionInput();
-        input.setSource("+ + > + + + + + [ < + > - ] + + + + + + + + [ < + + + + + + > - ] < .");
+        input.setSource("This program adds the numbers 2 and 5" + System.lineSeparator()
+                + "+ + > + + + + + [ < + > - ] + + + + + + + + [ < + + + + + + > - ] < .");
 
         final Map<String, Object> model = Collections.singletonMap("input", input);
         return new ModelAndView("index", model);
