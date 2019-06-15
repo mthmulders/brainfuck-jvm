@@ -80,4 +80,10 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+        </profile>
+    </profiles>
 </project>
