@@ -10,7 +10,7 @@ import it.mulders.brainfuckjvm.simpleparser.SimpleParser;
 @ProvidedTags({ StandardTags.StatementTag.class })
 @TruffleLanguage.Registration(
         id = BrainfuckLanguage.ID,
-        name = "SL",
+        name = "Brainfuck",
         defaultMimeType = BrainfuckLanguage.MIME_TYPE,
         characterMimeTypes = BrainfuckLanguage.MIME_TYPE,
         contextPolicy = TruffleLanguage.ContextPolicy.SHARED
