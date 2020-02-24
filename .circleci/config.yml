@@ -3,7 +3,7 @@ jobs:
   build:
 
     docker:
-      - image: oracle/graalvm-ce:19.2.1
+      - image: oracle/graalvm-ce:20.0.0
 
     steps:
       - checkout
