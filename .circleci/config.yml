@@ -20,6 +20,10 @@ jobs:
             mvn -version
 
       - run:
+          name: Install gu tool
+          command: $JAVA_HOME/bin/gu install native-image
+
+      - run:
           name: Run tests
           command: |
             mvn -e org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
