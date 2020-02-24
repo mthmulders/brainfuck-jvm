@@ -106,8 +106,9 @@ public class BrainfuckParser {
             if (!jumps.isEmpty()) {
                 // We're inside a [ jump forward loop. This new command doesn't belong to the root node,
                 // but is a child of the innermost [ jump forward.
-                jumps.peek().addChild(command);
-                jumps.peek().adoptChildren();
+                final BFJumpNode jump = jumps.peek();
+                jump.addChild(command);
+                jump.adoptChildren();
             }
             if (command instanceof BFJumpNode) {
                 jumps.push((BFJumpNode) command);
