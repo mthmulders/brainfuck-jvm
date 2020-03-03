@@ -12,8 +12,8 @@ import java.io.PrintWriter;
  * Represents the "Output Byte" command.
  */
 public class BFOutputByteNode extends BFCommandNode {
-    public BFOutputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        super(sourceCharIndex, sourceLength, dataPointerSlot);
+    public BFOutputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot, slots);
     }
 
     @Override

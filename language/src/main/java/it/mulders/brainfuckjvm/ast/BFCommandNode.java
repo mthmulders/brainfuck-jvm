@@ -33,6 +33,9 @@ public abstract class BFCommandNode extends Node implements InstrumentableNode {
     @Getter
     protected final FrameSlot dataPointerSlot;
 
+    /** The memory slots that the Brainfuck program has access to. */
+    private final FrameSlot[] slots;
+
     @CompilerDirectives.CompilationFinal
     protected boolean isFirstNode = false;
 
@@ -42,24 +45,24 @@ public abstract class BFCommandNode extends Node implements InstrumentableNode {
      * @param sourceLength Length of the source code that generated this node.
      * @param dataPointerSlot The slot that holds the data pointer.
      */
-    protected BFCommandNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        this(sourceCharIndex, sourceLength, dataPointerSlot, false);
+    protected BFCommandNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        this(sourceCharIndex, sourceLength, dataPointerSlot, slots,false);
     }
 
     /**
      * Overloaded constructor for nodes that do not have a source section.
      * @param dataPointerSlot The slot that holds the data pointer.
      */
-    protected BFCommandNode(final FrameSlot dataPointerSlot) {
-        this(NO_SOURCE, 0, dataPointerSlot, false);
+    protected BFCommandNode(final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        this(NO_SOURCE, 0, dataPointerSlot, slots, false);
     }
 
     /**
      * Copy constructor, needed for the Truffle-generated wrapper class.
      * @param source Instance to copy from.
      */
-    protected BFCommandNode(final BFCommandNode source) {
-        this(source.sourceCharIndex, source.sourceLength, source.dataPointerSlot, source.isFirstNode);
+    protected BFCommandNode(final BFCommandNode source, final FrameSlot[] slots) {
+        this(source.sourceCharIndex, source.sourceLength, source.dataPointerSlot, slots, source.isFirstNode);
     }
 
     /**
@@ -113,7 +116,7 @@ public abstract class BFCommandNode extends Node implements InstrumentableNode {
 
     @Override
     public WrapperNode createWrapper(final ProbeNode probe) {
-        return new BFCommandNodeWrapper(this, this, probe);
+        return new BFCommandNodeWrapper(this, this.slots, this, probe);
     }
 
     final void setDataPointer(final VirtualFrame frame, final int newDataPointer) {
@@ -126,7 +129,7 @@ public abstract class BFCommandNode extends Node implements InstrumentableNode {
 
     final FrameSlot getSlot(final VirtualFrame frame) {
         final int dataPointer = getDataPointer(frame);
-        return frame.getFrameDescriptor().findFrameSlot(dataPointer);
+        return this.slots[dataPointer];
     }
 
     final byte getCurrentByte(final VirtualFrame frame) {

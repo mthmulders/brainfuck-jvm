@@ -13,8 +13,8 @@ import java.io.IOException;
  * Represents the "Input Byte" command.
  */
 public class BFInputByteNode extends BFCommandNode {
-    public BFInputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        super(sourceCharIndex, sourceLength, dataPointerSlot);
+    public BFInputByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot, slots);
     }
 
     @Override

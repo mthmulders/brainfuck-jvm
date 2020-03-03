@@ -7,8 +7,8 @@ import com.oracle.truffle.api.frame.VirtualFrame;
  * Implements the "Increment Byte" command.
  */
 public class BFIncrementByteNode extends BFCommandNode {
-    public BFIncrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        super(sourceCharIndex, sourceLength, dataPointerSlot);
+    public BFIncrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot, slots);
     }
 
     @Override
