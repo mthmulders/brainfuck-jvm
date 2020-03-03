@@ -42,7 +42,7 @@ public class BFRootNode extends RootNode implements BFParentNode {
 
     @Override
     public Object execute(final VirtualFrame frame) {
-        assert getLanguage(BrainfuckLanguage.class).getContextReference().get() != null;
+        assert lookupContextReference(BrainfuckLanguage.class).get() != null;
 
         initializeMemorySlots(frame);
 
