@@ -24,7 +24,7 @@ public class BFInputByteNode extends BFCommandNode {
     }
 
     private BrainfuckContext getContext() {
-        return getRootNode().getLanguage(BrainfuckLanguage.class).getContextReference().get();
+        return lookupContextReference(BrainfuckLanguage.class).get();
     }
 
     @TruffleBoundary

@@ -29,7 +29,7 @@ public class BFOutputByteNode extends BFCommandNode {
     }
 
     private BrainfuckContext getContext() {
-        return getRootNode().getLanguage(BrainfuckLanguage.class).getContextReference().get();
+        return lookupContextReference(BrainfuckLanguage.class).get();
     }
 
     @Override
