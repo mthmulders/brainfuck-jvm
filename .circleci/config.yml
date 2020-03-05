@@ -26,10 +26,12 @@ jobs:
       - run:
           name: Run tests
           command: |
-            mvn -e org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
+            mvn -P coverage \
+              clean verify sonar:sonar \
               -Dsonar.projectKey=mthmulders_brainfuck-jvm \
               -Dsonar.organization=mthmulders-github \
               -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
               -Dsonar.login=$SONAR_LOGIN
 
       - save_cache:
