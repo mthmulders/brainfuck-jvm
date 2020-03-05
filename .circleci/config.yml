@@ -3,7 +3,7 @@ jobs:
   build:
 
     docker:
-      - image: oracle/graalvm-ce:19.2.1
+      - image: oracle/graalvm-ce:20.0.0
 
     steps:
       - checkout
@@ -18,6 +18,10 @@ jobs:
             wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
             yum install -y apache-maven
             mvn -version
+
+      - run:
+          name: Install gu tool
+          command: $JAVA_HOME/bin/gu install native-image
 
       - run:
           name: Run tests

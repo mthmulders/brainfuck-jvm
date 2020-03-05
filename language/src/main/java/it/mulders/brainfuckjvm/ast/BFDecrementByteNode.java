@@ -7,8 +7,8 @@ import com.oracle.truffle.api.frame.VirtualFrame;
  * Represents the "Decrement Byte" command.
  */
 public class BFDecrementByteNode extends BFCommandNode {
-    public BFDecrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        super(sourceCharIndex, sourceLength, dataPointerSlot);
+    public BFDecrementByteNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot, slots);
     }
 
     @Override

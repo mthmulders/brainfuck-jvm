@@ -10,8 +10,8 @@ import com.oracle.truffle.api.frame.VirtualFrame;
  */
 public class BFJumpNode extends BFCommandNode implements BFParentNode {
 
-    public BFJumpNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot) {
-        super(sourceCharIndex, sourceLength, dataPointerSlot);
+    public BFJumpNode(final int sourceCharIndex, final int sourceLength, final FrameSlot dataPointerSlot, final FrameSlot[] slots) {
+        super(sourceCharIndex, sourceLength, dataPointerSlot, slots);
     }
 
     @CompilationFinal(dimensions = 1)

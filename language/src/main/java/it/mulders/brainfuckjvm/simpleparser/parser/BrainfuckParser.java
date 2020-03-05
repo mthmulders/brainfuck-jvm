@@ -39,20 +39,21 @@ public class BrainfuckParser {
      * @param source The source code that contained this token.
      * @param token The recognized token in the original source code.
      * @param pointer The {@link FrameSlot command pointer}
+     * @param slots The {@link FrameSlot} memory slots that the Brainfuck program can access.
      * @return a node for the Brainfuck AST.
      * @throws BFParseError when the token is not recognized.
      */
-    private BFCommandNode parse(final Source source, final BrainfuckToken token, final FrameSlot pointer) {
+    private BFCommandNode parse(final Source source, final BrainfuckToken token, final FrameSlot pointer, final FrameSlot[] slots) {
         final int sourceCharIndex = token.sourceCharIndex;
 
         switch (token.token) {
-            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case INPUT_BYTE:             return new BFInputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case JUMP_FORWARD:           return new BFJumpNode(sourceCharIndex, TOKEN_LENGTH, pointer);
-            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer);
+            case DECREMENT_BYTE:         return new BFDecrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case DECREMENT_DATA_POINTER: return new BFDecrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case INCREMENT_BYTE:         return new BFIncrementByteNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case INCREMENT_DATA_POINTER: return new BFIncrDataPointerNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case INPUT_BYTE:             return new BFInputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case JUMP_FORWARD:           return new BFJumpNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
+            case OUTPUT_BYTE:            return new BFOutputByteNode(sourceCharIndex, TOKEN_LENGTH, pointer, slots);
 
             default:
                 log.log(SEVERE, "Unexpected token in source code: %s", token.token);
@@ -67,12 +68,20 @@ public class BrainfuckParser {
         final FrameDescriptor descriptor = new FrameDescriptor();
 
         // Describe our memory layout: one array of 30.000 bytes and one position to store the data pointer.
-        IntStream.range(0, MEMORY_SIZE)
-                .forEach(i -> descriptor.addFrameSlot(i, FrameSlotKind.Byte));
+        final FrameSlot[] slots = IntStream.range(0, MEMORY_SIZE)
+                .mapToObj(i -> descriptor.addFrameSlot(i, FrameSlotKind.Byte))
+                .toArray(FrameSlot[]::new);
         final FrameSlot dataPointerSlot = descriptor.findOrAddFrameSlot(DATA_POINTER, FrameSlotKind.Int);
 
         final SourceSection section = source.createSection(SOURCE_START_INDEX, source.getLength());
-        final BFRootNode root = buildNodes(source,tokens.collect(toList()), dataPointerSlot, jumps, new BFRootNode(language, descriptor, section));
+        final BFRootNode root = buildNodes(
+                source,
+                tokens.collect(toList()),
+                dataPointerSlot,
+                jumps,
+                new BFRootNode(language, descriptor, section),
+                slots
+        );
 
         if ("true".equals(System.getProperty("brainfuck.ast.dump"))) {
             visualizer.dumpTree("source.bf", "output", root);
@@ -85,7 +94,8 @@ public class BrainfuckParser {
                                   final List<BrainfuckToken> tokens,
                                   final FrameSlot dataPointerSlot,
                                   final Deque<BFJumpNode> jumps,
-                                  final BFRootNode root) {
+                                  final BFRootNode root,
+                                  final FrameSlot[] slots) {
         final List<BFCommandNode> nodes = new ArrayList<>(tokens.size());
 
         for (final BrainfuckToken token : tokens) {
@@ -98,7 +108,7 @@ public class BrainfuckParser {
                  }
             }
 
-            final BFCommandNode command = parse(source, token, dataPointerSlot);
+            final BFCommandNode command = parse(source, token, dataPointerSlot, slots);
 
             if (jumps.isEmpty()) {
                 nodes.add(command);
@@ -106,8 +116,9 @@ public class BrainfuckParser {
             if (!jumps.isEmpty()) {
                 // We're inside a [ jump forward loop. This new command doesn't belong to the root node,
                 // but is a child of the innermost [ jump forward.
-                jumps.peek().addChild(command);
-                jumps.peek().adoptChildren();
+                final BFJumpNode jump = jumps.peek();
+                jump.addChild(command);
+                jump.adoptChildren();
             }
             if (command instanceof BFJumpNode) {
                 jumps.push((BFJumpNode) command);

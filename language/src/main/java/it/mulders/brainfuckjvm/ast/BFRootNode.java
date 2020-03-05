@@ -1,9 +1,11 @@
 package it.mulders.brainfuckjvm.ast;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.source.SourceSection;
@@ -26,6 +28,10 @@ public class BFRootNode extends RootNode implements BFParentNode {
     @Setter
     private BFCommandNode[] children;
 
+    /** The memory slots that the Brainfuck program has access to. */
+    @CompilerDirectives.CompilationFinal(dimensions = 1)
+    private final FrameSlot[] slots;
+
     @Override
     public BFCommandNode[] getChildNodes() {
         final BFCommandNode[] result = new BFCommandNode[this.children.length];
@@ -38,11 +44,12 @@ public class BFRootNode extends RootNode implements BFParentNode {
                       final SourceSection sourceSection) {
         super(language, descriptor);
         this.sourceSection = sourceSection;
+        this.slots = descriptor.getSlots().toArray(new FrameSlot[0]);
     }
 
     @Override
     public Object execute(final VirtualFrame frame) {
-        assert getLanguage(BrainfuckLanguage.class).getContextReference().get() != null;
+        assert lookupContextReference(BrainfuckLanguage.class).get() != null;
 
         initializeMemorySlots(frame);
 
@@ -52,11 +59,13 @@ public class BFRootNode extends RootNode implements BFParentNode {
         return BFNull.SINGLETON;
     }
 
+    @ExplodeLoop
     private void initializeMemorySlots(final VirtualFrame frame) {
         final FrameDescriptor descriptor = frame.getFrameDescriptor();
-        for (Object identifier : descriptor.getIdentifiers()) {
-            final FrameSlot slot = descriptor.findFrameSlot(identifier);
-
+        // See conversation with Chris Seaton and Christian Humer (https://graalvm.slack.com/archives/CP6RTC4LT/p1582572229006400)
+        // `getIdentifiers` is a slow path operation and shouldn't be used by optimised code.
+        // Look at how SL uses it: You should look up and then cache the result of the lookup.
+        for (FrameSlot slot : this.slots) {
             switch (descriptor.getFrameSlotKind(slot)) {
                 case Byte:
                     frame.setByte(slot, (byte) 0);
@@ -65,7 +74,8 @@ public class BFRootNode extends RootNode implements BFParentNode {
                     frame.setInt(slot, 0);
                     break;
                 default:
-                    logUnexpectedSlot(identifier);
+                    CompilerDirectives.transferToInterpreter();
+                    logUnexpectedSlot(slot.getIdentifier());
             }
         }
     }
