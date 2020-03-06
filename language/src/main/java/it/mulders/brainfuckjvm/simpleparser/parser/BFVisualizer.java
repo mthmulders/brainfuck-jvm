@@ -20,7 +20,7 @@ public class BFVisualizer {
     public void dumpTree(final String sourceFileName, final String outputFileName, final BFRootNode rootNode) {
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         try (final PrintWriter output = new PrintWriter(bytes)) {
-            output.println(format("digraph %s {", outputFileName));
+            output.println(format("digraph %s {", sourceFileName));
             output.println(format("\tgraph [ bgcolor=%s, nodesep=%f, ranksep=%f ]", BG_COLOR, INTERNODE_DISTANCE, INTERNODE_DISTANCE));
             output.println(format("\tnode [ fontname=\"Fira Code, serif\", style=rounded, shape=box, fontcolor=%s, color=%s ]", FG_COLOR, FG_COLOR));
             output.println(String.format("\t%s [ label = \"%s\" ]", rootNode.hashCode(), rootNode.toString()));
