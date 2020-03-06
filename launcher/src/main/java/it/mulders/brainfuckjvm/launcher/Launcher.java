@@ -81,8 +81,9 @@ public class Launcher {
             return 0;
         } catch (final PolyglotException ex) {
             if (ex.isInternalError()) {
-                // for internal errors we print the full stack trace
-                ex.printStackTrace();
+                // For internal errors we print the full stack trace to System.err
+                System.err.println("An internal error occurred in the polyglot runtime, the guest language or an instrument");
+                ex.printStackTrace(System.err);
                 return EXIT_INTERNAL_ERROR;
             } else {
                 System.err.println(ex.getMessage());
