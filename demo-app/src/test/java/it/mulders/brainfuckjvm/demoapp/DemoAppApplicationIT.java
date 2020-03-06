@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoAppApplicationTests {
+public class DemoAppApplicationIT {
 	@Autowired
 	private BrainfuckEngine engine;
 

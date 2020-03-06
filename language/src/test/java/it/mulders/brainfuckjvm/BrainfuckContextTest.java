@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Brainfuck_context_spec {
+public class BrainfuckContextTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final ByteArrayOutputStream err = new ByteArrayOutputStream();
 
