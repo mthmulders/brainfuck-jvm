@@ -50,9 +50,11 @@ public class BrainfuckEngine {
     private ExecutionResult handlePolyglotException(ExecutionResult.ExecutionResultBuilder result, PolyglotException ex) {
         if (ex.isInternalError()) {
             // for internal errors we print the full stack trace
-            ex.printStackTrace();
-            final String message = String.format("Could not run Brainfuck program due to %s", ex.getMessage());
-            return result.errorMessage(message).build();
+            log.error("An internal error occurred in the polyglot runtime, the guest language or an instrument", ex);
+            return result.errorMessage(
+                    "Could not run Brainfuck program due to an internal error occurred in " +
+                    "the polyglot runtime, the guest language or an instrument"
+            ).build();
         } else {
             return result.errorMessage(ex.getMessage()).build();
         }
