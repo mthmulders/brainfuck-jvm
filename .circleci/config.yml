@@ -12,14 +12,6 @@ jobs:
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run:
-          name: Download dependencies and plugins
-          command: mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
-
-      - run:
           name: Install Apache Maven
           command: |
             yum install -y wget
@@ -30,6 +22,14 @@ jobs:
       - run:
           name: Install gu tool
           command: $JAVA_HOME/bin/gu install native-image
+
+      - run:
+          name: Download dependencies and plugins
+          command: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run:
           name: Run tests
