@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class BrainfuckContextTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -30,23 +29,23 @@ public class BrainfuckContextTest {
         // 33 is !
         final String sourcecode = "++++++++++ ++++++++++ ++++++++++ +++ .";
         evaluateInput(sourcecode);
-        assertThat(out.toString(), is("!"));
+        assertThat(out.toString()).isEqualTo("!");
     }
 
     @Test
     void can_jump_back() {
         final String sourcecode = "++[-]+.";
         evaluateInput(sourcecode);
-        assertThat(out.size(), is(1));
-        assertThat(out.toByteArray()[0], is((byte) 1));
+        assertThat(out.size()).isEqualTo(1);
+        assertThat(out.toByteArray()[0]).isEqualTo((byte) 1);
     }
 
     @Test
     void can_jump_forward() {
         final String sourcecode = "[+]++.";
         evaluateInput(sourcecode);
-        assertThat(out.size(), is(1));
-        assertThat(out.toByteArray()[0], is((byte) 2));
+        assertThat(out.size()).isEqualTo(1);
+        assertThat(out.toByteArray()[0]).isEqualTo((byte) 2);
     }
 
     @Test
@@ -54,7 +53,7 @@ public class BrainfuckContextTest {
         // https://en.wikipedia.org/wiki/Brainfuck#Adding_two_values
         final String sourcecode = "++>+++++[<+>-]++++++++[<++++++>-]<.";
         evaluateInput(sourcecode);
-        assertThat(out.toString(), is("7"));
+        assertThat(out.toString()).isEqualTo("7");
     }
 
     @Test
@@ -64,46 +63,42 @@ public class BrainfuckContextTest {
         //                         1234567890123456789012345678901234567890123456789012345678901234567890
         //                         0        1         2         3         4
         evaluateInput(sourcecode);
-        assertThat(out.toString(), is("Hello World!\n"));
+        assertThat(out.toString()).isEqualTo("Hello World!\n");
     }
 
     @Test
     void parsing_fails_when_forward_jump_doesnt_have_backward_jump() {
         final String sourcecode = "[";
 
-        assertThrows(
-                PolyglotException.class,
-                () -> evaluateInput(sourcecode),
-                "Found [ without matching ]");
+        assertThatExceptionOfType(PolyglotException.class)
+                .isThrownBy(() -> evaluateInput(sourcecode))
+                .withMessage("Found [ without matching ]");
     }
 
     @Test
     void parsing_fails_when_more_forward_jumps_than_backward_jumps() {
         final String sourcecode = "[[]";
 
-        assertThrows(
-                PolyglotException.class,
-                () -> evaluateInput(sourcecode),
-                "Found [ without matching ]");
+        assertThatExceptionOfType(PolyglotException.class)
+                .isThrownBy(() -> evaluateInput(sourcecode))
+                .withMessage("Found [ without matching ]");
     }
 
     @Test
     void parsing_fails_when_backward_jump_doesnt_have_forward_jump() {
         final String sourcecode = "]";
 
-        assertThrows(
-                PolyglotException.class,
-                () -> evaluateInput(sourcecode),
-                "Found ] without matching [");
+        assertThatExceptionOfType(PolyglotException.class)
+                .isThrownBy(() -> evaluateInput(sourcecode))
+                .withMessage("Found ] without matching [");
     }
 
     @Test
     void parsing_fails_when_more_backward_jumps_than_forward_jumps() {
         final String sourcecode = "[]]";
 
-        assertThrows(
-                PolyglotException.class,
-                () -> evaluateInput(sourcecode),
-                "Found ] without matching [");
+        assertThatExceptionOfType(PolyglotException.class)
+                .isThrownBy(() -> evaluateInput(sourcecode))
+                .withMessage("Found ] without matching [");
     }
 }
