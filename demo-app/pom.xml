@@ -30,6 +30,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>it.mulders.brainfuck-jvm</groupId>
+            <artifactId>brainfuck-jvm</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
