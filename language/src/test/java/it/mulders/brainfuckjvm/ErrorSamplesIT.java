@@ -7,14 +7,17 @@ import org.graalvm.polyglot.Source;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 public class ErrorSamplesIT {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -57,7 +60,7 @@ public class ErrorSamplesIT {
             } catch (PolyglotException pe) {
                 final String message = expected.lines().collect(Collectors.joining("\n"));
 
-                assertThat(pe.getMessage(), is(message));
+                assertThat(pe.getMessage()).isEqualTo(message);
             }
         }
     }

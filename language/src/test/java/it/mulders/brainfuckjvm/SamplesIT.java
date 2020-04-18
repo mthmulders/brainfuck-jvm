@@ -14,9 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class SamplesIT {
@@ -63,12 +61,12 @@ public class SamplesIT {
 
             expected.lines().forEach(line -> {
                 try {
-                    assertThat(line, is(actual.readLine()));
+                    assertThat(line).isEqualTo(actual.readLine());
                 } catch (final IOException ioe) {
                     fail("Could not read actual output", ioe);
                 }
             });
-            assertThat(actual.readLine(), is(nullValue()));
+            assertThat(actual.readLine()).isNull();
         }
     }
 }
