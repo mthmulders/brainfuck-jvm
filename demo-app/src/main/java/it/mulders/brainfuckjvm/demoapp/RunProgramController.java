@@ -27,7 +27,6 @@ public class RunProgramController {
 
         final Map<String, Object> model = new HashMap<>();
         model.put("result", result);
-        model.put("name", "World");
 
         return new ModelAndView("output", model);
     }
