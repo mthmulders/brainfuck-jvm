@@ -39,7 +39,7 @@ jobs:
               -Dsonar.projectKey=mthmulders_brainfuck-jvm \
               -Dsonar.organization=mthmulders-github \
               -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.coverage.jacoco.xmlReportPaths= \
+              -Dsonar.coverage.jacoco.xmlReportPaths=\
                 launcher/target/site/jacoco/jacoco.xml,\
                 language/target/site/jacoco/jacoco.xml,\
                 language/target/site/jacoco-it/jacoco.xml,\
