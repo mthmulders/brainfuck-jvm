@@ -1,5 +1,6 @@
 package it.mulders.brainfuckjvm;
 
+import org.assertj.core.api.WithAssertions;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.PolyglotException;
@@ -16,10 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
-public class ErrorSamplesIT {
+public class ErrorSamplesIT implements WithAssertions {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final ByteArrayOutputStream err = new ByteArrayOutputStream();
 

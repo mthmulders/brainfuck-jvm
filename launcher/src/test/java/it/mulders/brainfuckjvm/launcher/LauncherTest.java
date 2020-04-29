@@ -1,5 +1,6 @@
 package it.mulders.brainfuckjvm.launcher;
 
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -10,10 +11,8 @@ import static it.mulders.brainfuckjvm.launcher.Launcher.isOption;
 import static it.mulders.brainfuckjvm.launcher.Launcher.parseOption;
 import static it.mulders.brainfuckjvm.launcher.Launcher.run;
 import static it.mulders.brainfuckjvm.launcher.Launcher.EXIT_NO_SOURCE;
-import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class LauncherTest {
+public class LauncherTest implements WithAssertions {
     @Test
     void params_start_with_double_dash() {
         assertThat(isOption("--inspect")).isTrue();

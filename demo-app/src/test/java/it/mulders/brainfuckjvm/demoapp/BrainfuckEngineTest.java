@@ -1,10 +1,9 @@
 package it.mulders.brainfuckjvm.demoapp;
 
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class BrainfuckEngineTest {
+public class BrainfuckEngineTest implements WithAssertions {
     private BrainfuckEngine engine = new BrainfuckEngine();
 
     @Test
