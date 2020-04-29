@@ -1,16 +1,12 @@
 package it.mulders.brainfuckjvm.demoapp;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InstanceOfAssertFactory;
-import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 
-class IndexControllerTest implements WithAssertions {
-    private static final InstanceOfAssertFactory<ExecutionInput, ObjectAssert<ExecutionInput>> EXECUTION_INPUT
-            = new InstanceOfAssertFactory<>(ExecutionInput.class, Assertions::assertThat);
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 
+class IndexControllerTest implements WithAssertions {
     private final IndexController controller = new IndexController();
 
     @Test
@@ -19,8 +15,8 @@ class IndexControllerTest implements WithAssertions {
 
         assertThat(result.getModel())
                 .containsKey("input")
-                .extracting(m -> m.get("input")).asInstanceOf(EXECUTION_INPUT)
-                .extracting(m -> m.getSource())
+                .extracting(m -> m.get("input"), type(ExecutionInput.class))
+                .extracting(ExecutionInput::getSource, STRING)
                 .isNotEmpty();
     }
 }
