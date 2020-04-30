@@ -1,10 +1,9 @@
 package it.mulders.brainfuckjvm.demoapp;
 
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class BrainfuckEngineTest {
+public class BrainfuckEngineTest implements WithAssertions {
     private BrainfuckEngine engine = new BrainfuckEngine();
 
     @Test
@@ -15,5 +14,13 @@ public class BrainfuckEngineTest {
 
         assertThat(result.getErrorMessage()).isNull();
         assertThat(result.getOutput()).isEqualTo("\n");
+    }
+
+    @Test
+    void should_fail_with_invalid_program() {
+        final ExecutionResult result =  engine.runProgram("[");
+
+        assertThat(result.getErrorMessage()).isEqualTo("Found [ without matching ]");
+        assertThat(result.getOutput()).isNull();
     }
 }
