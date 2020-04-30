@@ -1,5 +1,7 @@
 package it.mulders.brainfuckjvm.demoapp;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +13,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class RunProgramControllerTest implements WithAssertions {
+    private static final InstanceOfAssertFactory<ExecutionResult, ExecutionResultAssert> EXECUTION_RESULT = new InstanceOfAssertFactory<>(ExecutionResult.class, ExecutionResultAssert::assertThat);
+
     private final BrainfuckEngine brainfuckEngine = mock(BrainfuckEngine.class);
 
     private final RunProgramController controller = new RunProgramController(brainfuckEngine);
@@ -24,12 +28,10 @@ class RunProgramControllerTest implements WithAssertions {
 
         final ModelAndView result = controller.runProgram(input);
 
-        assertThat(result).isNotNull()
+        assertThat(result)
                 .extracting(ModelAndView::getModel, map(String.class, Object.class))
                 .containsKey("result")
-                .extracting(m -> m.get("result"), type(ExecutionResult.class))
-                .isNotNull()
-                .extracting(ExecutionResult::getOutput, STRING)
-                .isEqualTo("Hello, world");
+                .extracting(m -> m.get("result"), as(EXECUTION_RESULT))
+                .hasOutput("Hello, world");
     }
 }
