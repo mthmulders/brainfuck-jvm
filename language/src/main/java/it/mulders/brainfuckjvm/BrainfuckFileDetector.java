@@ -6,7 +6,7 @@ import java.nio.file.spi.FileTypeDetector;
 
 public class BrainfuckFileDetector extends FileTypeDetector {
     @Override
-    public String probeContentType(final Path path) throws IOException {
+    public String probeContentType(final Path path) {
         final String fileName = path.getFileName().toString();
         if (fileName.endsWith(".bf") || fileName.endsWith(".b")) {
             return BrainfuckLanguage.MIME_TYPE;
