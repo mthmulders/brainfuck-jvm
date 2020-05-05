@@ -42,6 +42,13 @@ Note that currently there are only distributions for Linux and MacOS.
     mvn verify
     
 ## Using Brainfuck-JVM
+First, you need to install the component into your GraalVM installation:
+```sh
+# Make sure to set JAVA_HOME to your GraalVM installation first!
+mvn package
+${JAVA_HOME}/bin/gu install -L component/target/brainfuck-0.1-SNAPSHOT-component.jar
+```
+
 The integration test suite (in `SamplesIT.java`) gives a good idea of how to run Brainfuck programs inside the JVM.
 
 The general pattern is as follows:

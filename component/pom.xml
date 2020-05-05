@@ -25,6 +25,7 @@
     </dependencies>
 
     <build>
+        <finalName>brainfuck-${project.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -55,7 +56,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <appendAssemblyId>true</appendAssemblyId>
                     <archive>
                         <manifestFile>target/classes/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
