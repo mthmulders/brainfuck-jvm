@@ -8,7 +8,6 @@ import org.graalvm.polyglot.Source;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +29,11 @@ public class Launcher extends AbstractLanguageLauncher {
     }
 
     @Override
+    @SuppressWarnings("java:S106")
     protected List<String> preprocessArguments(final List<String> arguments, final Map<String, String> polyglotOptions) {
         final List<String> remainder = new ArrayList<>(arguments);
         for (final String arg : arguments) {
-            if (isOption(arg)) {
-                polyglotOptions.putAll(parseOption(arg));
-            } else {
+            if (!isOption(arg)) {
                 if (file != null) {
                     // Usually, you would accept multiple source files, but for Brainfuck that doesn't make sense.
                     System.err.println("Source file to execute is already specified, overriding it");
@@ -48,7 +46,12 @@ public class Launcher extends AbstractLanguageLauncher {
     }
 
     @Override
+    @SuppressWarnings("java:S106")
     protected void launch(final Context.Builder contextBuilder) {
+        if (file == null) {
+            System.err.println("No input file given");
+            return;
+        }
         try (final Context context = contextBuilder.build()) {
             final Source source = Source.newBuilder(BRAINFUCK_ID, new File(file)).build();
             context.eval(source);
@@ -58,31 +61,13 @@ public class Launcher extends AbstractLanguageLauncher {
     }
 
     @Override
+    @SuppressWarnings("java:S106")
     protected void printHelp(final OptionCategory maxCategory) {
+        System.out.println();
+        System.out.println("Usage: bf [OPTION]... [FILE]...");
     }
 
     protected static boolean isOption(final String arg) {
         return arg.length() > 2 && arg.startsWith("--");
-    }
-
-    protected static Map<String, String> parseOption(final String arg) {
-        if (hasValue(arg)) {
-            return parseOptionWithValue(arg);
-        } else {
-            return parseOptionWithoutValue(arg);
-        }
-    }
-
-    protected static boolean hasValue(final String arg) {
-        return arg.indexOf('=') > 0;
-    }
-
-    protected static Map<String, String> parseOptionWithoutValue(final String arg) {
-        return Collections.singletonMap(arg.substring(2), "true");
-    }
-
-    protected static Map<String, String> parseOptionWithValue(final String arg) {
-        final int eqIdx = arg.indexOf('=');
-        return Collections.singletonMap(arg.substring(2, eqIdx), arg.substring(eqIdx + 1));
     }
 }
