@@ -98,32 +98,6 @@ public class Launcher {
         } else {
             return parseOptionWithoutValue(arg);
         }
-
-        /*
-        final int eqIdx = arg.indexOf('=');
-        String key;
-        String value;
-        if (eqIdx < 0) {
-            key = arg.substring(2);
-            value = null;
-        } else {
-            key = arg.substring(2, eqIdx);
-            value = arg.substring(eqIdx + 1);
-        }
-
-        if (value == null) {
-            value = "true";
-        }
-        final int index = key.indexOf('.');
-        String group = key;
-        if (index >= 0) {
-            group = group.substring(0, index);
-        }
-
-        final Map<String, String> result = new HashMap<>();
-        result.put(key, value);
-        return result;
-        */
     }
 
     private static boolean hasValue(final String arg) {
