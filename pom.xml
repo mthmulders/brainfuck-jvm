@@ -47,11 +47,6 @@
                 <version>${graal.sdk.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>org.graalvm.sdk</groupId>
-                <artifactId>launcher-common</artifactId>
-                <version>${graal.sdk.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.graalvm.truffle</groupId>

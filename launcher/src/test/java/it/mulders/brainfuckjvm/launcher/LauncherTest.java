@@ -4,13 +4,13 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 
 import static it.mulders.brainfuckjvm.launcher.Launcher.isOption;
 import static it.mulders.brainfuckjvm.launcher.Launcher.parseOption;
+import static it.mulders.brainfuckjvm.launcher.Launcher.run;
+import static it.mulders.brainfuckjvm.launcher.Launcher.EXIT_NO_SOURCE;
 
 public class LauncherTest implements WithAssertions {
     @Test
@@ -40,29 +40,21 @@ public class LauncherTest implements WithAssertions {
     }
 
     @Test
+    void non_existing_source_exit_code_nonzero() throws IOException {
+        assertThat(run("doesnt-exist.bf")).isEqualTo(EXIT_NO_SOURCE);
+    }
+
+    @Test
+    void existing_source_exit_code_zero() throws IOException {
+        assertThat(run("../language/src/test/resources/hello.bf")).isEqualTo(0);
+    }
+
+    @Test
     @Disabled("See question in https://github.com/graalvm/simplelanguage/issues/60")
     void option_with_subvalue_keeps_value() {
         final Map<String, String> options = parseOption("--inspect.WaitAttached=false");
         final Map.Entry<String, String> option = options.entrySet().iterator().next();
         assertThat(option.getKey()).isEqualTo("WaitAttached");
         assertThat(option.getValue()).isEqualTo("false");
-    }
-
-    @Test
-    void preprocessArguments_should_move_known_options() {
-        final Map<String, String> options = new HashMap<>();
-        final List<String> args = Collections.singletonList("--inspect.WaitAttached=false");
-        final List<String> remainder = new Launcher().preprocessArguments(args, options);
-        assertThat(remainder).isEmpty();
-        assertThat(options).containsOnly(entry("inspect.WaitAttached", "false"));
-    }
-
-    @Test
-    void preprocessArguments_should_not_return_filename() {
-        final Map<String, String> options = new HashMap<>();
-        final List<String> args = Collections.singletonList("foo.bf");
-        final List<String> remainder = new Launcher().preprocessArguments(args, options);
-        assertThat(options).isEmpty();
-        assertThat(remainder).isEmpty();
     }
 }
