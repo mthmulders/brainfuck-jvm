@@ -101,7 +101,7 @@ public class Launcher {
     }
 
     private static boolean hasValue(final String arg) {
-        return arg.indexOf('=') > 0;
+        return arg.indexOf('=') >= 0;
     }
 
     private static Map<String, String> parseOptionWithoutValue(final String arg) {
