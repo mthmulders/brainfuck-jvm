@@ -39,8 +39,8 @@ public class Launcher extends AbstractLanguageLauncher {
                     System.err.println("Source file to execute is already specified, overriding it");
                 }
                 file = arg;
+                remainder.remove(arg);
             }
-            remainder.remove(arg);
         }
         return remainder;
     }
