@@ -15,7 +15,7 @@ if [[ "$GRAALVM_VERSION" != "" ]]; then
     LAUNCHER_PATH="$SCRIPT_HOME/../jre/languages/bf/launcher/bf-launcher.jar"
     JAVACMD="$SCRIPT_HOME/java"
     GRAALVM_VERSION=$(echo "$GRAALVM_VERSION" | awk 'BEGIN {FS="="} {print $2}')
-    if [[ "$GRAALVM_VERSION" != "$VERSION" ]]; then
+    if [[ "$GRAALVM_VERSION" != "\"$VERSION\"" ]]; then
         echo "Installed in wrong version of GraalVM. Expected: $VERSION, found $GRAALVM_VERSION"
         exit 1
     fi
