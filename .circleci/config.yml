@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-java8:
 
     docker:
       - image: oracle/graalvm-ce:20.1.0-java8
@@ -32,7 +32,7 @@ jobs:
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run:
-          name: Run tests
+          name: Run tests with SonarCloud
           command: |
             mvn -P coverage \
               clean verify sonar:sonar \
@@ -58,8 +58,63 @@ jobs:
       - store_test_results:
           path: ~/junit
 
+  build-java11:
+
+    docker:
+      - image: oracle/graalvm-ce:20.1.0-java11
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
+
+      - run:
+          name: Install Apache Maven
+          command: |
+            yum install -y wget
+            wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+            yum install -y apache-maven
+            mvn -version
+
+      - run:
+          name: Install gu tool
+          command: $JAVA_HOME/bin/gu install native-image
+
+      - run:
+          name: Download dependencies and plugins
+          command: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
+
+      - run:
+          name: Run tests without SonarCloud
+          command: |
+            mvn -P coverage \
+              clean verify
+
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.sonar/cache
+          key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
+
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
+            find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/junit
+
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - build-java8
+      - build-java11
