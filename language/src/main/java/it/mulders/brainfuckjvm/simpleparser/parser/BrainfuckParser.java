@@ -131,7 +131,7 @@ public class BrainfuckParser {
 
         if (!jumps.isEmpty()) {
             final SourceSection section = jumps.peek().getSourceSection();
-            final int sourceCharIndex = section.getStartColumn();
+            final int sourceCharIndex = section.getCharIndex();
             final int sourceCharLength = section.getCharLength();
             throw parseError(source, sourceCharIndex, sourceCharLength, "Found [ without matching ]");
         }

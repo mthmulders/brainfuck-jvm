@@ -30,9 +30,11 @@ Although a Brainfuck program isn't very likely to modify its Abstract Syntax Tre
 ## Getting started
 
 ### Install GraalVM
-To get started, you need GraalVM.
+To build or use this project, you need GraalVM.
 You can obtain it at [the GraalVM website](https://www.graalvm.org/downloads/).
 Note that currently there are only distributions for Linux and MacOS.
+
+**Make sure to set your `JAVA_HOME` environment variable to point to the GraalVM installation!**
 
 ### Build Brainfuck-JVM
 
