@@ -32,14 +32,10 @@ jobs:
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run:
-          name: Run tests with SonarCloud
+          name: Run tests without SonarCloud
           command: |
             mvn -P coverage \
-              clean verify sonar:sonar \
-              -Dsonar.projectKey=mthmulders_brainfuck-jvm \
-              -Dsonar.organization=mthmulders-github \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=$SONAR_LOGIN
+              clean verify
 
       - save_cache:
           paths:
@@ -90,10 +86,14 @@ jobs:
           key: brainfuck-jvm-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run:
-          name: Run tests without SonarCloud
+          name: Run tests with SonarCloud
           command: |
             mvn -P coverage \
-              clean verify
+              clean verify sonar:sonar \
+              -Dsonar.projectKey=mthmulders_brainfuck-jvm \
+              -Dsonar.organization=mthmulders-github \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_LOGIN
 
       - save_cache:
           paths:
