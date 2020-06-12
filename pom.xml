@@ -15,7 +15,7 @@
         <assertj.version>3.16.1</assertj.version>
         <graal.sdk.version>20.1.0</graal.sdk.version>
         <junit.version>5.6.2</junit.version>
-        <argLine></argLine>
+        <argLine>-Dgraalvm.locatorDisabled=true</argLine>
     </properties>
 
     <scm>
@@ -84,7 +84,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
                     <configuration>
-                        <argLine>@{argLine} -Dgraalvm.locatorDisabled=true -XX:-UseJVMCIClassLoader</argLine>
+                        <argLine>@{argLine}</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -125,6 +125,15 @@
     <profiles>
         <profile>
             <id>native</id>
+        </profile>
+        <profile>
+            <id>java-8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <argLine>-Dgraalvm.locatorDisabled=true -XX:-UseJVMCIClassLoader</argLine>
+            </properties>
         </profile>
         <profile>
             <id>coverage</id>
