@@ -90,6 +90,7 @@ jobs:
           command: |
             mvn -P coverage \
               clean verify sonar:sonar \
+              -Djfr.unsupported.vm=true \
               -Dsonar.projectKey=mthmulders_brainfuck-jvm \
               -Dsonar.organization=mthmulders-github \
               -Dsonar.host.url=https://sonarcloud.io \
