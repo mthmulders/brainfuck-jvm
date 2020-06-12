@@ -37,8 +37,8 @@ if [[ "$GRAALVM_VERSION" != "" ]]; then
     JAVACMD="$SCRIPT_HOME/java"
     versionCheck "Installed in wrong version of GraalVM. Expected: $VERSION, found $GRAALVM_VERSION"
 else
-    LANGUAGE_PATH="$SCRIPT_HOME/../jre/languages/bf/brainfuck.jar"
-    LAUNCHER_PATH="$SCRIPT_HOME/launcher/target/launcher-$VERSION.jar"
+    LANGUAGE_PATH="$SCRIPT_HOME/../../../../language/target/brainfuck-jvm.jar"
+    LAUNCHER_PATH="$SCRIPT_HOME/../../../../launcher/target/bf-launcher.jar"
     # Check the GraalVM version in JAVA_HOME
     if [[ "$JAVA_HOME" != "" ]]; then
         GRAALVM_VERSION=$(extractGraalVMVersion "$JAVA_HOME"/release)
@@ -77,6 +77,8 @@ if [[ "$GRAALVM_VERSION" != "" ]]; then
         -J*)
             opt=${opt:2}
             JAVA_ARGS+=("$opt") ;;
+        -Dbf*)
+            JAVA_ARGS+=("$opt") ;;
         *)
             PROGRAM_ARGS+=("$opt") ;;
       esac
@@ -99,6 +101,8 @@ else
             echo "NOTE: Ignoring -disassemble" ;;
         -J*)
             opt=${opt:2}
+            JAVA_ARGS+=("$opt") ;;
+        -Dbf*)
             JAVA_ARGS+=("$opt") ;;
         *)
             PROGRAM_ARGS+=("$opt") ;;

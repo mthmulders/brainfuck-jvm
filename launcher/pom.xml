@@ -11,6 +11,10 @@
 
     <artifactId>brainfuck-launcher</artifactId>
 
+    <build>
+        <finalName>bf-launcher</finalName>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
