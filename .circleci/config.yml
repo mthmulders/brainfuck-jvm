@@ -51,6 +51,10 @@ jobs:
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
 
+      - run:
+          name: Test GraalVM component
+          command: ./.circleci/test-component.sh
+
       - store_test_results:
           path: ~/junit
 
@@ -109,6 +113,10 @@ jobs:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
+
+      - run:
+          name: Test GraalVM component
+          command: ./.circleci/test-component.sh
 
       - store_test_results:
           path: ~/junit
