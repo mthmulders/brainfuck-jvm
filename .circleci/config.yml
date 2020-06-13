@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Install gu tool
-          command: $JAVA_HOME/bin/gu install native-image
+          command: gu install native-image
 
       - run:
           name: Download dependencies and plugins
@@ -79,7 +79,7 @@ jobs:
 
       - run:
           name: Install gu tool
-          command: $JAVA_HOME/bin/gu install native-image
+          command: gu install native-image
 
       - run:
           name: Download dependencies and plugins
