@@ -3,6 +3,7 @@ package it.mulders.brainfuckjvm.launcher;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
+import org.graalvm.polyglot.SourceSection;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,7 +87,11 @@ public class Launcher {
                 ex.printStackTrace(System.err);
                 return EXIT_INTERNAL_ERROR;
             } else {
-                System.err.println(ex.getMessage());
+                final SourceSection section = ex.getSourceLocation();
+                final int line = section.getStartLine();
+                final int column = section.getStartColumn();
+                final CharSequence characters = section.getCharacters();
+                System.err.printf("%s at line %d, position %d (%s).%n", ex.getMessage(), line, column, characters);
                 return EXIT_PROGRAM_ERROR;
             }
         }
