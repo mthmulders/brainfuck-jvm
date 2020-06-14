@@ -16,11 +16,6 @@ public class InvalidMemoryAccessException extends RuntimeException implements Tr
         this.location = location;
     }
 
-    @Override
-    public final Throwable fillInStackTrace() {
-        return this;
-    }
-
     private static final String MESSAGE = "Invalid memory location (%d) accessed";
 
     private static InvalidMemoryAccessException create(final Node operation, final String message) {
