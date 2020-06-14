@@ -34,8 +34,7 @@ jobs:
       - run:
           name: Run tests without SonarCloud
           command: |
-            mvn -P coverage \
-              clean verify
+            mvn clean verify
 
       - save_cache:
           paths:
