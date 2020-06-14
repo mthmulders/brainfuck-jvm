@@ -28,11 +28,11 @@ import static java.util.stream.Collectors.toList;
 @Log
 public class BrainfuckParser {
     private static final String DATA_POINTER = "__dataPointer";
-    private static final int MEMORY_SIZE = Integer.parseInt(System.getProperty(BF_MEM_SIZE, "30000"));
     private static final int SOURCE_START_INDEX = 0;
 
     private final BrainfuckLanguage language;
     private final BFVisualizer visualizer = new BFVisualizer();
+    private final int memorySize = Integer.parseInt(System.getProperty(BF_MEM_SIZE, "30000"));
 
     /**
      * Build an {@link BFCommandNode AST node} from a {@link BrainfuckToken recognized token}.
@@ -68,7 +68,7 @@ public class BrainfuckParser {
         final FrameDescriptor descriptor = new FrameDescriptor();
 
         // Describe our memory layout: one array of 30.000 bytes and one position to store the data pointer.
-        final FrameSlot[] slots = IntStream.range(0, MEMORY_SIZE)
+        final FrameSlot[] slots = IntStream.range(0, memorySize)
                 .mapToObj(i -> descriptor.addFrameSlot(i, FrameSlotKind.Byte))
                 .toArray(FrameSlot[]::new);
         final FrameSlot dataPointerSlot = descriptor.findOrAddFrameSlot(DATA_POINTER, FrameSlotKind.Int);
