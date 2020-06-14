@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Install gu tool
-          command: $JAVA_HOME/bin/gu install native-image
+          command: gu install native-image
 
       - run:
           name: Download dependencies and plugins
@@ -34,8 +34,7 @@ jobs:
       - run:
           name: Run tests without SonarCloud
           command: |
-            mvn -P coverage \
-              clean verify
+            mvn clean verify
 
       - save_cache:
           paths:
@@ -50,6 +49,10 @@ jobs:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
+
+      - run:
+          name: Test GraalVM component
+          command: ./.circleci/test-component.sh
 
       - store_test_results:
           path: ~/junit
@@ -75,7 +78,7 @@ jobs:
 
       - run:
           name: Install gu tool
-          command: $JAVA_HOME/bin/gu install native-image
+          command: gu install native-image
 
       - run:
           name: Download dependencies and plugins
@@ -109,6 +112,10 @@ jobs:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
+
+      - run:
+          name: Test GraalVM component
+          command: ./.circleci/test-component.sh
 
       - store_test_results:
           path: ~/junit

@@ -15,6 +15,7 @@ import com.oracle.truffle.api.frame.FrameUtil;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import it.mulders.brainfuckjvm.InvalidMemoryAccessException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -129,7 +130,13 @@ public abstract class BFCommandNode extends Node implements InstrumentableNode {
 
     final FrameSlot getSlot(final VirtualFrame frame) {
         final int dataPointer = getDataPointer(frame);
-        return this.slots[dataPointer];
+        if (dataPointer >= this.slots.length) {
+            throw InvalidMemoryAccessException.memoryOverflow(this, dataPointer);
+        } else if (dataPointer < 0) {
+            throw InvalidMemoryAccessException.memoryUnderflow(this, dataPointer);
+        } else {
+            return this.slots[dataPointer];
+        }
     }
 
     final byte getCurrentByte(final VirtualFrame frame) {

@@ -5,6 +5,7 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -60,6 +61,39 @@ public class ErrorSamplesIT implements WithAssertions {
 
                 assertThat(pe.getMessage()).isEqualTo(message);
             }
+        }
+    }
+
+    @Test
+    void invalid_memory_access_before_zero() {
+        final Source source = Source.newBuilder(BrainfuckLanguage.ID, "<+", null)
+                .cached(false)
+                .buildLiteral();
+        try (final Engine engine = Engine.newBuilder().build();
+             final Context context = Context.newBuilder().engine(engine).build()) {
+            context.eval(source);
+            fail("No error happened, but it was expected");
+        } catch (final PolyglotException pe) {
+            assertThat(pe.isInternalError()).isFalse();
+            assertThat(pe.getMessage()).contains("Invalid memory location (-1) accessed");
+        }
+    }
+
+    @Test
+    void invalid_memory_access_beyond_max() {
+        System.setProperty("bf.mem.size", "1");
+        final Source source = Source.newBuilder(BrainfuckLanguage.ID, ">+", null)
+                .cached(false)
+                .buildLiteral();
+        try (final Engine engine = Engine.newBuilder().build();
+             final Context context = Context.newBuilder().engine(engine).build()) {
+            context.eval(source);
+            fail("No error happened, but it was expected");
+        } catch (final PolyglotException pe) {
+            assertThat(pe.isInternalError()).isFalse();
+            assertThat(pe.getMessage()).contains("Invalid memory location (1) accessed");
+        } finally {
+            System.clearProperty("bf.mem.size");
         }
     }
 }

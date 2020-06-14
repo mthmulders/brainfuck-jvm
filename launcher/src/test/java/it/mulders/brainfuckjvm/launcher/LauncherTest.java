@@ -46,7 +46,22 @@ public class LauncherTest implements WithAssertions {
 
     @Test
     void existing_source_exit_code_zero() throws IOException {
-        assertThat(run("../language/src/test/resources/hello.bf")).isEqualTo(0);
+        assertThat(run("src/test/resources/sample.bf")).isEqualTo(0);
+    }
+
+    @Test
+    void existing_source_with_invalid_loop() throws IOException {
+        assertThat(run("src/test/resources/invalid_loop.bf")).isEqualTo(3);
+    }
+
+    @Test
+    void existing_source_with_invalid_memory_access() throws IOException {
+        System.setProperty("bf.mem.size", "1");
+        try {
+            assertThat(run("src/test/resources/invalid_memory_access.bf")).isEqualTo(3);
+        } finally {
+            System.clearProperty("bf.mem.size");
+        }
     }
 
     @Test
