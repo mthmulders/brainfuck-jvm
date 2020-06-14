@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public class InvalidMemoryAccessException extends RuntimeException implements TruffleException {
-    private final Node location;
+    private final transient Node location;
 
     public InvalidMemoryAccessException(final String message, final Node location) {
         super(message);
