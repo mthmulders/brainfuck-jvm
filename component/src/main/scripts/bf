@@ -2,7 +2,7 @@
 
 VERSION="20.1.0"
 MAIN_CLASS="it.mulders.brainfuckjvm.launcher.Launcher"
-SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd -P)"
+SCRIPT_HOME="$(cd "$(dirname "$(readlink -f "$0")")" && pwd -P)"
 
 function extractGraalVMVersion() {
     local -r releasePath="${1:?Path to relese file is a required parameter}"
@@ -29,14 +29,15 @@ function fail() {
 # Locations of the language and launcher jars as well as the java command are
 # different if I'm running from the repository or as a component in GraalVM
 #######################################################################
-GRAALVM_VERSION=$(extractGraalVMVersion "$SCRIPT_HOME/../release")
+GRAALVM_VERSION=$(extractGraalVMVersion "$SCRIPT_HOME/../../../../release")
 if [[ "$GRAALVM_VERSION" != "" ]]; then
-    LANGUAGE_PATH="$SCRIPT_HOME/../jre/languages/bf/brainfuck.jar"
-    # contains paths for both jdk8 and jdk11
-    LAUNCHER_PATH="$SCRIPT_HOME/../jre/languages/bf/launcher/bf-launcher.jar"
-    JAVACMD="$SCRIPT_HOME/java"
+    # Running from an installed GraalVM component.
+    LANGUAGE_PATH="$SCRIPT_HOME/../brainfuck.jar"
+    LAUNCHER_PATH="$SCRIPT_HOME/../launcher/bf-launcher.jar"
+    JAVACMD="$SCRIPT_HOME/../../../../bin/java"
     versionCheck "Installed in wrong version of GraalVM. Expected: $VERSION, found $GRAALVM_VERSION"
 else
+    # Running from the project repository.
     LANGUAGE_PATH="$SCRIPT_HOME/../../../../language/target/brainfuck-jvm.jar"
     LAUNCHER_PATH="$SCRIPT_HOME/../../../../launcher/target/bf-launcher.jar"
     # Check the GraalVM version in JAVA_HOME
