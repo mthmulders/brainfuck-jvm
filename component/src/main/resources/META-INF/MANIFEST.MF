@@ -1,5 +1,5 @@
 Bundle-Name: Brainfuck
 Bundle-Symbolic-Name: it.mulders.brainfuck-jvm
 Bundle-Version: ${project.version}
-Bundle-RequireCapability: org.graalvm; filter:="(&(graalvm_version=20.1.0)(os_arch=amd64))"
+Bundle-RequireCapability: org.graalvm; filter:="(&(graalvm_version=20.2.0)(os_arch=amd64))"
 X-GraalVM-Polyglot-Part: True

@@ -3,7 +3,7 @@ jobs:
   build-java8:
 
     docker:
-      - image: oracle/graalvm-ce:20.1.0-java8
+      - image: oracle/graalvm-ce:20.2.0-java8-ol8
 
     steps:
       - checkout
@@ -14,10 +14,11 @@ jobs:
       - run:
           name: Install Apache Maven
           command: |
-            yum install -y wget
-            wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-            yum install -y apache-maven
-            mvn -version
+            pushd /tmp
+            curl http://ftp.tudelft.nl/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz --out apache-maven-3.6.3-bin.tar.gz
+            tar -xzf apache-maven-3.6.3-bin.tar.gz
+            popd
+            /tmp/apache-maven-3.6.3/bin/mvn -version
 
       - run:
           name: Install gu tool
@@ -25,7 +26,7 @@ jobs:
 
       - run:
           name: Download dependencies and plugins
-          command: mvn dependency:go-offline
+          command: /tmp/apache-maven-3.6.3/bin/mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
@@ -34,7 +35,7 @@ jobs:
       - run:
           name: Run tests without SonarCloud
           command: |
-            mvn clean verify
+            /tmp/apache-maven-3.6.3/bin/mvn clean verify
 
       - save_cache:
           paths:
@@ -60,7 +61,7 @@ jobs:
   build-java11:
 
     docker:
-      - image: oracle/graalvm-ce:20.1.0-java11
+      - image: oracle/graalvm-ce:20.2.0-java11-ol8
 
     steps:
       - checkout
@@ -71,10 +72,11 @@ jobs:
       - run:
           name: Install Apache Maven
           command: |
-            yum install -y wget
-            wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-            yum install -y apache-maven
-            mvn -version
+            pushd /tmp
+            curl http://ftp.tudelft.nl/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz --out apache-maven-3.6.3-bin.tar.gz
+            tar -xzf apache-maven-3.6.3-bin.tar.gz
+            popd
+            /tmp/apache-maven-3.6.3/bin/mvn -version
 
       - run:
           name: Install gu tool
@@ -82,7 +84,7 @@ jobs:
 
       - run:
           name: Download dependencies and plugins
-          command: mvn dependency:go-offline
+          command: /tmp/apache-maven-3.6.3/bin/mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
@@ -91,7 +93,7 @@ jobs:
       - run:
           name: Run tests with SonarCloud
           command: |
-            mvn -P coverage \
+            /tmp/apache-maven-3.6.3/bin/mvn -P coverage \
               clean verify sonar:sonar \
               -Djfr.unsupported.vm=true \
               -Dsonar.projectKey=mthmulders_brainfuck-jvm \
