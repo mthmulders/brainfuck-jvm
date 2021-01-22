@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="20.2.0"
+VERSION="21.0.0"
 MAIN_CLASS="it.mulders.brainfuckjvm.launcher.Launcher"
 SCRIPT_HOME="$(cd "$(dirname "$(readlink -f "$0")")" && pwd -P)"
 
