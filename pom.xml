@@ -13,7 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <assertj.version>3.19.0</assertj.version>
-        <graal.sdk.version>21.0.0.2</graal.sdk.version>
+        <graal.sdk.version>21.1.0</graal.sdk.version>
         <junit.version>5.7.1</junit.version>
         <argLine>-Dgraalvm.locatorDisabled=true</argLine>
     </properties>
