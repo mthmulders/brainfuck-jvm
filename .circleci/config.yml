@@ -3,7 +3,7 @@ jobs:
   build-java8:
 
     docker:
-      - image: ghcr.io/graalvm/graalvm-ce:java8-21.1.0
+      - image: ghcr.io/graalvm/graalvm-ce:java8-21.2.0
 
     steps:
       - checkout
@@ -61,7 +61,7 @@ jobs:
   build-java11:
 
     docker:
-      - image: ghcr.io/graalvm/graalvm-ce:java11-21.1.0
+      - image: ghcr.io/graalvm/graalvm-ce:java11-21.2.0
 
     steps:
       - checkout
