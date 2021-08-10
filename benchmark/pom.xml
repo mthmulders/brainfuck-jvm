@@ -12,7 +12,7 @@
     <artifactId>benchmark</artifactId>
 
     <properties>
-        <jmh.version>1.32</jmh.version>
+        <jmh.version>1.33</jmh.version>
         <uberjar.name>benchmarks</uberjar.name>
     </properties>
 
