@@ -40,7 +40,7 @@ Note that currently there are only distributions for Linux and MacOS.
 
     # Or wherever GraalVM is installed...
     # this is a typical MacOS installation path.
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-1.0.0-rc9/Contents/Home"
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java8-21.0.0.2/Contents/Home"
     mvn verify
     
 ## Using Brainfuck-JVM
@@ -48,7 +48,7 @@ First, you need to install the component into your GraalVM installation:
 ```sh
 # Make sure to set JAVA_HOME to your GraalVM installation first!
 mvn package
-${JAVA_HOME}/bin/gu install -L component/target/brainfuck-0.1-SNAPSHOT-component.jar
+${JAVA_HOME}/bin/gu install -L component/target/brainfuck-component.jar
 ```
 
 The integration test suite (in `SamplesIT.java`) gives a good idea of how to run Brainfuck programs inside the JVM.
