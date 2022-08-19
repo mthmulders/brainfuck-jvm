@@ -12,7 +12,7 @@
     <artifactId>demo-app</artifactId>
 
     <properties>
-        <spring.boot.version>2.7.1</spring.boot.version>
+        <spring.boot.version>2.7.3</spring.boot.version>
     </properties>
 
     <dependencyManagement>
